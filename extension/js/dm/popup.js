@@ -1,18 +1,18 @@
 var token, client;
 
 function auth() {
-	var b;
-	b = chrome.extension.getBackgroundPage()
-	b.auth();
+  var b;
+  b = chrome.extension.getBackgroundPage()
+  b.auth();
 }
 
 token = localStorage.dropboxAccessToken;
 if (!token) {
-	auth();
+  auth();
 }
 
 client = new Dropbox.Client({token: token});
 if (!client.isAuthenticated()) {
-	auth();
+  auth();
 }
 document.getElementById('content').innerHTML = 'authed!';
