@@ -1,0 +1,30 @@
+{
+  "name": "Dripmarks",
+  "preferGlobal": true,
+  "version": "0.0.1",
+  "author": "Bjorn Tipling <bjorn@ambientchill.com>",
+  "description": "A bookmarking tool powered by the Dropbox API",
+  "contributors": [
+    {
+      "name": "Bjorn Tipling",
+      "email": "bjorn@ambientchill.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/btipling/dripmarks.git"
+  },
+  "keywords": [
+    "bookmarks",
+    "dropbox",
+    "chrome"
+  ],
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.4"
+  },
+  "license": "Apache 2.0",
+  "engines": {
+    "node": ">=0.10"
+  }
+}
