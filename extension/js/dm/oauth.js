@@ -20,6 +20,7 @@ function handleOauth() {
     }
   }
   b = chrome.extension.getBackgroundPage();
+  console.log('b', b);
   if (token) {
     b.auth(token);
     b.run();

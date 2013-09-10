@@ -1,6 +1,6 @@
 var client;
 function auth(token) {
-  console.log('background!', Dropbox);
+  //console.log('background!', Dropbox);
   if (!token) {
     token = localStorage.dropboxAccessToken;
   }
@@ -10,17 +10,17 @@ function auth(token) {
     localStorage.dropboxAccessToken = token;
     client = new Dropbox.Client({token: token});
   }
-  console.log('client!', client);
+  //console.log('client!', client);
   client.authenticate();
-  console.log('client authed', client);
+  //console.log('client authed', client);
 }
 
 function run() {
   if (!client || !client.isAuthenticated()) {
-    console.log('Not authenticated.');
+    //console.log('Not authenticated.');
     return;
   }
-  console.log('authenticated!');
+  //console.log('authenticated!');
 }
 
 auth();

@@ -3,16 +3,26 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      all: ['Gruntfile.js', 'extension/js/dm/**/*.js'],
+      all: [
+        'Gruntfile.js',
+        'extension/js/popup.js',
+        'extension/js/dm/**/*.js'
+      ],
       options: {
         curly: true,
+        undef: true,
         unused: true,
         onevar: true,
         eqeqeq: true,
         eqnull: true,
         browser: true,
         globals: {
-          jQuery: true
+          jQuery: true,
+          requirejs: false,
+          define: false,
+          Dropbox: false,
+          chrome: false,
+          module: false
         },
       },
     },

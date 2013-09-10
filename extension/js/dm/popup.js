@@ -1,18 +1,28 @@
-var token, client;
+define([
+], function() {
 
-function auth() {
-  var b;
-  b = chrome.extension.getBackgroundPage();
-  b.auth();
-}
+  var token, client;
 
-token = localStorage.dropboxAccessToken;
-if (!token) {
-  auth();
-}
+  function auth() {
+    var b;
+    b = chrome.extension.getBackgroundPage();
+    b.auth();
+  }
 
-client = new Dropbox.Client({token: token});
-if (!client.isAuthenticated()) {
-  auth();
-}
-document.getElementById('content').innerHTML = 'authed!';
+  function main() {
+    token = localStorage.dropboxAccessToken;
+    if (!token) {
+      auth();
+    }
+
+    client = new Dropbox.Client({token: token});
+    if (!client.isAuthenticated()) {
+      auth();
+    }
+    document.getElementById('content').innerHTML = 'authed!';
+  }
+
+  return {
+    main: main
+  };
+});
