@@ -2,7 +2,7 @@ var token, client;
 
 function auth() {
   var b;
-  b = chrome.extension.getBackgroundPage()
+  b = chrome.extension.getBackgroundPage();
   b.auth();
 }
 
