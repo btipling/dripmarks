@@ -20,7 +20,6 @@ module.exports = function(grunt) {
           jQuery: true,
           requirejs: false,
           define: false,
-          Dropbox: false,
           chrome: false,
           module: false
         },

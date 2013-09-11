@@ -1,27 +1,15 @@
-var client;
-function auth(token) {
-  //console.log('background!', Dropbox);
-  if (!token) {
-    token = localStorage.dropboxAccessToken;
-  }
-  if (!token) {
-    client = new Dropbox.Client({key: 'y1vpbd2xo51cd3r'});
-  } else {
-    localStorage.dropboxAccessToken = token;
-    client = new Dropbox.Client({token: token});
-  }
-  //console.log('client!', client);
-  client.authenticate();
-  //console.log('client authed', client);
-}
+/**
+ * @fileOverview Just attempts to auth if not authed.
+ */
+define([
+  './auth'
+], function(auth) {
 
-function run() {
-  if (!client || !client.isAuthenticated()) {
-    //console.log('Not authenticated.');
-    return;
+  function main() {
+    auth.auth();
   }
-  //console.log('authenticated!');
-}
 
-auth();
-run();
+  return {
+    main: main
+  };
+});

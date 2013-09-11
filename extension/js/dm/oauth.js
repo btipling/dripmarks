@@ -1,37 +1,38 @@
 /**
- * @fileOverview Handle the oauth from Dropbox.
+ * @fileOverview Handle the oauth token from Dropbox.
  */
+define([
+  './auth',
+  './utils'
+], function(auth, utils) {
 
-function handleOauth() {
-  var token, i, parts, subparts, hash, b;
-  hash = window.location.hash.substr(1);
-  if (!hash || !hash.length) {
-    closeTab();
-  }
-  parts = window.location.hash.substr(1).split('&');
-  if (!parts.length) {
-    closeTab();
-  }
-  for (i = 0; i < parts.length; i++) {
-    subparts = parts[i].split('=');
-    if (subparts[0] === 'access_token') {
-      token = subparts[1];
-      break;
+  function main() {
+
+    var token, i, parts, subparts, hash;
+
+    hash = window.location.hash.substr(1);
+    if (!hash || !hash.length) {
+      utils.closeTab();
     }
+    parts = window.location.hash.substr(1).split('&');
+    if (!parts.length) {
+      utils.closeTab();
+    }
+    for (i = 0; i < parts.length; i++) {
+      subparts = parts[i].split('=');
+      if (subparts[0] === 'access_token') {
+        token = subparts[1];
+        break;
+      }
+    }
+    if (token) {
+      auth.auth(token);
+    }
+    utils.closeTab();
   }
-  b = chrome.extension.getBackgroundPage();
-  console.log('b', b);
-  if (token) {
-    b.auth(token);
-    b.run();
-  }
-  closeTab();
-}
 
-function closeTab() {
-  chrome.tabs.getCurrent(function(tab) {
-    chrome.tabs.remove(tab.id);
-  });
-}
 
-handleOauth();
+  return {
+    main: main
+  };
+});

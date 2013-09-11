@@ -1,5 +1,6 @@
 define([
-], function() {
+  'dropbox'
+], function(Dropbox) {
 
   var token, client;
 
