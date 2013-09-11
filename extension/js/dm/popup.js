@@ -1,8 +1,8 @@
 define([
-  'dropbox'
-], function(Dropbox) {
-
-  var token, client;
+  'jquery',
+  'dropbox',
+  './bookmark_form'
+], function($, Dropbox, BookmarkForm) {
 
   function auth() {
     var b;
@@ -11,6 +11,9 @@ define([
   }
 
   function main() {
+
+    var token, client, bookmarkForm;
+
     token = localStorage.dropboxAccessToken;
     if (!token) {
       auth();
@@ -20,7 +23,8 @@ define([
     if (!client.isAuthenticated()) {
       auth();
     }
-    document.getElementById('content').innerHTML = 'authed!';
+    bookmarkForm = new BookmarkForm();
+    $('#content').append(bookmarkForm.render());
   }
 
   return {

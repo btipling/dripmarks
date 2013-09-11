@@ -17,7 +17,6 @@ module.exports = function(grunt) {
         eqnull: true,
         browser: true,
         globals: {
-          jQuery: true,
           requirejs: false,
           define: false,
           chrome: false,
@@ -48,7 +47,7 @@ module.exports = function(grunt) {
             return pieces[0];
           },
           partialRegex: /^par_/,
-          namespace: 'LTT'
+          namespace: 'DM'
         },
         files: {
           'extension/js/templates/templates.js': 'extension/templates/*.html'
