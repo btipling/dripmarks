@@ -9,6 +9,6 @@
 define([
 ], function() {
   return {
-    parkerToken: ''
+    parserToken: ''
   };
 });

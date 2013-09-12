@@ -6,8 +6,9 @@ define([
   'underscore',
   'dropbox',
   './bookmark_form',
-  './bookmark'
-], function($, _, Dropbox, BookmarkForm, Bookmark) {
+  './bookmark',
+  './readability'
+], function($, _, Dropbox, BookmarkForm, Bookmark, Readability) {
 
   function auth() {
     var b;
@@ -26,6 +27,9 @@ define([
       }
       current = tabs[0];
       bookmark.set({title: current.title, url: current.url});
+      if (current.url) {
+        Readability.populateBookmark(current.url, bookmark);
+      }
     });
   }
 

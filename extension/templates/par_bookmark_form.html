@@ -7,7 +7,11 @@
 <form class="well bookmark-form">
   <div class="row">
     <div class="col-xs-3">
-      <div class="bookmark-form-img-container"></div>
+      <div class="bookmark-form-img-container">
+        {{#if lead_image_url}}
+        <img src="{{lead_image_url}}" alt="Image: {{title}}"/>
+        {{/if}}
+      </div>
     </div>
     <div class="col-xs-9">
       <div class="subrow">

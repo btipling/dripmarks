@@ -1,11 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Dripmarks",
-  "description": "Dropbox bookmark synching",
+  "description": "Dropbox bookmark synching powerd by the Dropbox API and Readability",
   "version": "1.0",
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "https://readability.com/"
   ],
   "content_security_policy": "script-src 'self' https://www.dropbox.com; object-src 'self'",
   "background": {
