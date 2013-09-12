@@ -5,11 +5,54 @@
   </div>
 </div>
 <form class="well bookmark-form">
-  <div>
-    <label for="bookmark-form-url">URL: </label>
-  <div>
-  <div>
-    <input id="bookmark-form-url" type="text" />
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="bookmark-form-img-container"></div>
+    </div>
+    <div class="col-xs-9">
+      <div class="subrow">
+        <label for="bookmark-form-url">URL: </label>
+        <input id="bookmark-form-url" type="text" />
+      </div>
+      <div class="subrow">
+        <label for="bookmark-form-title">Title: </label>
+        <input id="bookmark-form-title" type="text" />
+      </div>
+      <div class="subrow subrow-long">
+        <label for="bookmark-form-save-content">Save content: </label>
+        <input id="bookmark-form-save-content" type="checkbox" />
+      </div>
+    </div>
+  </div>
+  <div class="row bookmark-form-row">
+    <div class="col-xs-1">
+      <label class="bookmark-form-tags-label"
+        for="bookmark-form-tag-input">Tags:</label>
+    </div>
+  </div>
+  <div class="row bookmark-form-row">
+    <div class="col-xs-12">
+      <input id="bookmark-form-tag-input" type="text"/>
+    </div>
+  </div>
+  <div class="row bookmark-form-row">
+    <div class="col-xs-1">
+      <label for="bookmark-form-notes">Notes:</label>
+    </div>
+  </div>
+  <div class="row bookmark-form-row">
+    <div class="col-xs-12">
+      <textarea id="bookmark-form-notes"></textarea>
+    </div>
+  </div>
+  <div class="row bookmark-form-row bookmark-form-footer">
+    <span class="col-xs-4">
+      <a target="_blank" href="/html/browser.html">Open bookmarks</a>
+    </span>
+    <span class="col-xs-8 bookmark-form-btns">
+      <button class="btn btn-primary">Save</button>
+      <button class="btn btn-default">Cancel</button>
+    </span>
   </div>
 </form>
 </section>

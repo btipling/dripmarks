@@ -1,0 +1,60 @@
+.bookmark-form {
+  input, textarea {
+    background-color: @gray-dark;
+    color: @gray-lighter;
+    border: 1px @gray solid !important;
+  }
+  .bookmark-form-img-container {
+    width: 90px;
+    height: 90px;
+    border: 1px @gray solid;
+  }
+  input[type=text] {
+    width: 208px;
+    display: inline-block;
+  }
+  .subrow {
+    label {
+      display: inline-block;
+      width: 40px;
+    }
+    margin-left: 10px;
+    &:nth-child(1n+2) {
+      padding-top: 10px;
+    }
+  }
+  .subrow-long {
+    label {
+      width: auto;
+    }
+  }
+  .bookmark-form-row {
+    padding-top: 5px;
+    vertical-align: middle;
+    label {
+      display: inline-block;
+      padding-top: 3px;
+    }
+    input, textarea {
+      width: 358px;
+    }
+    &.bookmark-form-footer {
+      a {
+        text-decoration: underline;
+      }
+      padding-top: 20px;
+      .bookmark-form-btns {
+        text-align: right;
+        button.btn {
+          display: inline-block;
+          .button-size(2px, 0px, 10px, 15px, 2px);
+          width: 50px;
+          &:nth-child(1n+2) {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
