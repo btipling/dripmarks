@@ -1,8 +1,13 @@
+/**
+ * @fileOverview Set up the popup with the add bookmark form.
+ */
 define([
   'jquery',
+  'underscore',
   'dropbox',
-  './bookmark_form'
-], function($, Dropbox, BookmarkForm) {
+  './bookmark_form',
+  './bookmark'
+], function($, _, Dropbox, BookmarkForm, Bookmark) {
 
   function auth() {
     var b;
@@ -10,9 +15,23 @@ define([
     b.auth();
   }
 
+  /**
+   * @param {Bookmark} bookmark
+   */
+  function getCurrentTabInfo(bookmark) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var current;
+      if (_.isEmpty(tabs)) {
+        return;
+      }
+      current = tabs[0];
+      bookmark.set({title: current.title, url: current.url});
+    });
+  }
+
   function main() {
 
-    var token, client, bookmarkForm;
+    var token, client, bookmarkForm, bookmark;
 
     token = localStorage.dropboxAccessToken;
     if (!token) {
@@ -23,8 +42,10 @@ define([
     if (!client.isAuthenticated()) {
       auth();
     }
-    bookmarkForm = new BookmarkForm();
+    bookmark = new Bookmark();
+    bookmarkForm = new BookmarkForm({model: bookmark});
     $('#content').append(bookmarkForm.render());
+    getCurrentTabInfo(bookmark);
   }
 
   return {
