@@ -1,17 +1,27 @@
 .bookmark-form {
+  position: relative;
   input, textarea {
     background-color: @gray-dark;
     color: @gray-lighter;
     border: 1px @gray solid !important;
   }
+  .progress {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    border-radius: 0px;
+    height: 10px;
+  }
   .bookmark-form-img-container {
     width: 90px;
     height: 90px;
     border: 1px @gray solid;
-    img {
-      max-width: 90px;
-      max-height: 90px;
-    }
+    background-image: url(/images/img_bg.png);
+    background-clip: content-box;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
   }
   input[type=text] {
     width: 208px;

@@ -5,12 +5,19 @@
   </div>
 </div>
 <form class="well bookmark-form">
+ {{#if loadingContent }}
+  <div class="progress progress-striped active">
+    <div class="progress-bar"  role="progressbar" aria-valuenow="100"
+      aria-valuemin="100" aria-valuemax="100" style="width:100%;">
+    </div>
+  </div>
+ {{/if}}
   <div class="row">
     <div class="col-xs-3">
-      <div class="bookmark-form-img-container">
+      <div class="bookmark-form-img-container"
         {{#if lead_image_url}}
-        <img src="{{lead_image_url}}" alt="Image: {{title}}"/>
-        {{/if}}
+        style="background-image:url({{lead_image_url}});"
+        {{/if}}>
       </div>
     </div>
     <div class="col-xs-9">
@@ -23,15 +30,18 @@
         <input id="bookmark-form-title" type="text" value="{{title}}"/>
       </div>
       <div class="subrow subrow-long">
-        <label for="bookmark-form-save-content">Save content: </label>
-        <input id="bookmark-form-save-content" type="checkbox" />
+        <label for="bookmark-form-save-content">Content available: </label>
+        <input id="bookmark-form-save-content" type="checkbox"
+          disabled="disabled"
+          {{#if contentAvailable }}checked="checked"{{/if}} />
       </div>
     </div>
   </div>
   <div class="row bookmark-form-row">
     <div class="col-xs-1">
       <label class="bookmark-form-tags-label"
-        for="bookmark-form-tag-input">Tags:</label>
+        for="bookmark-form-tag-input">Tags <small>(comma separated)</small>:
+      </label>
     </div>
   </div>
   <div class="row bookmark-form-row">

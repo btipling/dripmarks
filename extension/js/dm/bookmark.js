@@ -13,6 +13,10 @@ define([
    * @extends {Backbone.Model}
    */
   Bookmark = Backbone.Model.extend({
+    defaults: {
+      contentAvailable: false,
+      loadingContent: true
+    }
   });
 
   return Bookmark;
