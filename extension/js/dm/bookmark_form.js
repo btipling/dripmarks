@@ -24,9 +24,14 @@ define([
     },
     /** @inheritDoc */
     render: function() {
-      var t;
+      var t, context;
       t = DM['extension/templates/add_bookmark_form.html'];
-      this.$el.html(t(this.model.toJSON()));
+      context = _.clone(this.model.toJSON());
+      context.formattedTags = '';
+      if (context.tags && !_.isEmpty(context.tags)) {
+        context.formattedTags = context.tags.join(', ');
+      }
+      this.$el.html(t(context));
       return this.$el;
     },
     /**
@@ -35,6 +40,31 @@ define([
      */
     handleSave_: function(event) {
       event.preventDefault();
+      this.storeFormContents_();
+      this.model.save();
+    },
+    /**
+     * @private
+     */
+    storeFormContents_: function() {
+      var url, title, rawTags, tags, notes;
+      url = $.trim($('#bookmark-form-url').val());
+      title = $.trim($('#bookmark-form-title').val());
+      rawTags = $.trim($('#bookmark-form-tag-input').val());
+      notes = $.trim($('#bookmark-form-notes').val());
+      if (_.isEmpty(rawTags)) {
+        tags = [];
+      } else {
+        tags = _.map(rawTags.split(','), function(tag) {
+          return $.trim(tag);
+        });
+      }
+      this.model.set({
+        url: url,
+        title: title,
+        tags: tags,
+        notes: notes
+      });
     },
     /**
      * @param {Object} event

@@ -16,6 +16,10 @@ define([
     defaults: {
       contentAvailable: false,
       loadingContent: true
+    },
+    sync: function() {
+      window.console.log('syncing!', arguments);
+      window.console.log('json', this.toJSON());
     }
   });
 
