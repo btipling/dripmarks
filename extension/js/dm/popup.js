@@ -48,6 +48,9 @@ define([
     }
     bookmark = new Bookmark();
     bookmarkForm = new BookmarkForm({model: bookmark});
+    bookmarkForm.on(BookmarkForm.Event.CANCEL, function() {
+      window.close();
+    });
     $('#content').append(bookmarkForm.render());
     getCurrentTabInfo(bookmark);
   }
