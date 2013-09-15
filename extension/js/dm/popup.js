@@ -96,7 +96,7 @@ define([
         datastore.close();
         closePopup();
       });
-      $('#content').append(bookmarkForm.render());
+      $('#content').html(bookmarkForm.render());
       getCurrentTabInfo(bookmark);
     });
   }
