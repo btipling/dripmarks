@@ -3,8 +3,10 @@ define([
   'dropbox',
   './auth',
   './tags',
-  './tagslist'
-], function($, Dropbox, auth, Tags, TagsList) {
+  './tagslist',
+  './bookmarks',
+  './bookmarks_list'
+], function($, Dropbox, auth, Tags, TagsList, Bookmarks, Bookmarkslist) {
 
   function main() {
 
@@ -23,7 +25,7 @@ define([
     }
     datamanager = client.getDatastoreManager();
     datamanager.openDefaultDatastore(function(error, datastore) {
-      var tagslist, tags;
+      var tagslist, tags, bookmarksList, bookmarks;
       if (error) {
         auth.auth();
         return;
@@ -37,6 +39,15 @@ define([
         model: tags
       });
       $('#tags-container').html(tagslist.render());
+      bookmarks = new Bookmarks([], {
+        client: client,
+        datamanager: datamanager,
+        datastore: datastore
+      });
+      bookmarksList = new Bookmarkslist({
+        model: bookmarks
+      });
+      $('#bookmarks-container').html(bookmarksList.render());
     });
 
   }

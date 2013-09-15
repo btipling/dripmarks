@@ -17,8 +17,8 @@ define([
   TagsList = Backbone.View.extend({
     /** @inheritDoc */
     initialize: function() {
-      this.model.fetch();
       this.listenTo(this.model, 'all', this.render);
+      this.model.fetch();
     },
     /** @inheritDoc */
     render: function() {
