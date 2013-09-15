@@ -80,8 +80,10 @@ define([
      */
     handleCancel_: function(event) {
       event.preventDefault();
-      this.dispose();
-      this.trigger(BookmarkForm.Event.CLOSE);
+      //this.dispose();
+      _.defer(_.bind(function() {
+        this.trigger(BookmarkForm.Event.CANCEL);
+      }, this));
     },
     dispose: function() {
       this.$el.remove();
@@ -93,7 +95,8 @@ define([
    * @enum {string}
    */
   BookmarkForm.Event = {
-    CLOSE: 'close'
+    CLOSE: 'close',
+    CANCEL: 'cancel'
   };
 
   return  BookmarkForm;

@@ -9,7 +9,7 @@ define([
   './bookmark',
   './readability',
   './auth',
-  './loading'
+  './loading',
 ], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth, loading) {
 
   var closeWindow;
@@ -75,7 +75,8 @@ define([
           if (loading.isLoading(loading.namespaces.DATA_SYNC)) {
             loading.hideLoading(loading.namespaces.DATA_SYNC);
             if (closeWindow) {
-              window.close();
+              datastore.close();
+              closePopup();
             }
           }
         }
@@ -88,13 +89,20 @@ define([
           closeWindow = true;
           return;
         }
-        _.defer(function() {
-          window.close();
-        });
+        datastore.close();
+        closePopup();
+      });
+      bookmarkForm.on(BookmarkForm.Event.CANCEL, function() {
+        datastore.close();
+        closePopup();
       });
       $('#content').append(bookmarkForm.render());
       getCurrentTabInfo(bookmark);
     });
+  }
+
+  function closePopup() {
+    window.close();
   }
 
   return {
