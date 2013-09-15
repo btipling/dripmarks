@@ -6,7 +6,8 @@
   "permissions": [
     "tabs",
     "storage",
-    "https://readability.com/"
+    "https://readability.com/*",
+    "https://*.dropbox.com/*"
   ],
   "content_security_policy": "script-src 'self' https://www.dropbox.com; object-src 'self'",
   "background": {

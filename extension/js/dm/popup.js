@@ -7,14 +7,9 @@ define([
   'dropbox',
   './bookmark_form',
   './bookmark',
-  './readability'
-], function($, _, Dropbox, BookmarkForm, Bookmark, Readability) {
-
-  function auth() {
-    var b;
-    b = chrome.extension.getBackgroundPage();
-    b.auth();
-  }
+  './readability',
+  './auth'
+], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth) {
 
   /**
    * @param {Bookmark} bookmark
@@ -35,24 +30,41 @@ define([
 
   function main() {
 
-    var token, client, bookmarkForm, bookmark;
+    var token, client, datamanager;
 
     token = localStorage.dropboxAccessToken;
     if (!token) {
-      auth();
+      auth.auth();
+      return;
     }
 
     client = new Dropbox.Client({token: token});
     if (!client.isAuthenticated()) {
-      auth();
+      auth.auth();
+      return;
     }
-    bookmark = new Bookmark();
-    bookmarkForm = new BookmarkForm({model: bookmark});
-    bookmarkForm.on(BookmarkForm.Event.CANCEL, function() {
-      window.close();
+    datamanager = client.getDatastoreManager();
+    datamanager.openDefaultDatastore(function(error, datastore) {
+      var bookmark, bookmarkForm;
+      if (error) {
+        auth.auth();
+        window.close();
+      }
+      bookmark = new Bookmark({}, {
+        client: client,
+        datamanager: datastore,
+        datastore: datastore
+      });
+      datastore.syncStatusChanged.addListener(function() {
+        // console.log('syncStatus', datastore.getSyncStatus(), arguments);
+      });
+      bookmarkForm = new BookmarkForm({model: bookmark});
+      bookmarkForm.on(BookmarkForm.Event.CANCEL, function() {
+        window.close();
+      });
+      $('#content').append(bookmarkForm.render());
+      getCurrentTabInfo(bookmark);
     });
-    $('#content').append(bookmarkForm.render());
-    getCurrentTabInfo(bookmark);
   }
 
   return {
