@@ -24,6 +24,11 @@ define([
     datamanager = client.getDatastoreManager();
     datamanager.openDefaultDatastore(function(error, datastore) {
       var tagslist, tags;
+      if (error) {
+        auth.auth();
+        return;
+      }
+      console.log('browser running');
       tags = new Tags([], {
         client: client,
         datamanager: datamanager,

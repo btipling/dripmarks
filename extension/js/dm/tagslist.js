@@ -14,14 +14,17 @@ define([
    * @constructor
    * @extends {Backbone.View}
    */
-  TagsList = Backbone.View.extends({
+  TagsList = Backbone.View.extend({
     /** @inheritDoc */
     initialize: function() {
+      this.model.fetch();
+      this.listenTo(this.model, 'all', this.render);
     },
     /** @inheritDoc */
     render: function() {
       var t;
       t = DM['extension/templates/tags_list.html'];
+      console.log('models?', this.model.toJSON());
       this.$el.html(t(this.model.toJSON()));
       return this.$el;
     }

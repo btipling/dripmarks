@@ -46,7 +46,7 @@ define([
           var tag;
 
           tag = tagRecord.getFields();
-          tag.bookmarks = tag.bookmars.toArray();
+          tag.bookmarks = tag.bookmarks.toArray();
           this.add(tag);
         }, this);
       }
