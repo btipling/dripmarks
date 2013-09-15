@@ -42,19 +42,48 @@ define([
     sync: function(method) {
       if (method === 'read') {
         if (!this.ids_) {
+          this.populateFromQuery_();
           return;
         }
-        _.each(this.ids_, function(id) {
-          var bm;
-          bm = new Bookmark({id: id}, {
-            client: this.client_,
-            datamanager: this.datamanager_,
-            datastore: this.datastore_
-          });
-          bm.fetch();
-          this.add(bm);
-        }, this);
+        this.populateFromIds_();
       }
+    },
+    /**
+     * @private
+     */
+    populateFromQuery_: function() {
+
+      var bookmarks, results;
+
+      bookmarks = this.datastore_.getTable('bookmarks');
+      results = bookmarks.query({});
+      _.each(results, function(result) {
+        var bm;
+        bm = result.getFields();
+        bm.tags = bm.tags.toArray();
+        this.add(new Bookmark(bm, {
+          client: this.client_,
+          datamanager: this.datamanager_,
+          datastore: this.datastore_
+        }));
+      }, this);
+    },
+    /**
+     * @private
+     */
+    populateFromIds_: function() {
+      _.each(this.ids_, function(id) {
+
+        var bm;
+
+        bm = new Bookmark({id: id}, {
+          client: this.client_,
+          datamanager: this.datamanager_,
+          datastore: this.datastore_
+        });
+        bm.fetch();
+        this.add(bm);
+      }, this);
     }
   });
 
