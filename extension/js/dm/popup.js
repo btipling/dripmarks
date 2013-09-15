@@ -88,7 +88,9 @@ define([
           closeWindow = true;
           return;
         }
-        window.close();
+        _.defer(function() {
+          window.close();
+        });
       });
       $('#content').append(bookmarkForm.render());
       getCurrentTabInfo(bookmark);

@@ -25,8 +25,27 @@ define([
       this.datastore = options.datastore;
     },
     /** @inheritDoc */
-    sync: function() {
-      this.saveToDropbox_();
+    sync: function(method) {
+      if (method === 'read') {
+        this.populateFromDropbox_();
+      } else if (method === 'create' || method === 'update') {
+        this.saveToDropbox_();
+      }
+    },
+    populateFromDropbox_: function() {
+      var data, bookmarks, url, results;
+      bookmarks = this.datastore.getTable('bookmarks');
+      url = this.get('url');
+      if (!url) {
+        return;
+      }
+      results = bookmarks.query({url: url});
+      if (_.isEmpty(results)) {
+        return;
+      }
+      data = results[0].getFields();
+      data.tags = data.tags.toArray();
+      this.set(data);
     },
     /**
      * @private

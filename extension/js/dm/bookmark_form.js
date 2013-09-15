@@ -20,7 +20,14 @@ define([
     },
     /** @inheritDoc */
     initialize: function() {
+      this.listenTo(this.model, 'change:url', this.updateModel_);
       this.listenTo(this.model, 'all', this.render);
+    },
+    /**
+     * @private
+     */
+    updateModel_: function() {
+      this.model.fetch();
     },
     /** @inheritDoc */
     render: function() {
