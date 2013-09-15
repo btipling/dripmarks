@@ -5,8 +5,24 @@
     <link href="/css/browser.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
-    <main id="content" class="container">
-      <h1>Bookmark Browser</h1>
+    <div class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <span class="brand">Bookmark Browser</span>
+      </div>
+    </div>
+    <main id="content" class="container browser-container">
+      <div class="row">
+        <div class="col-md-3">
+          <h2>Tags</h2>
+          <div id="tags-container">
+          </div>
+        </div>
+        <div class="col-md-9">
+          <h2>Bookmarks</h2>
+          <div id="bookmarks-container">
+          </div>
+        </div>
+      </div>
     </main>
     <script type="text/javascript"
    src="https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b4.js"

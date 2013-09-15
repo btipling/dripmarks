@@ -20,9 +20,21 @@ define([
     },
     /** @inheritDoc */
     initialize: function(attributes, options) {
-      this.client = options.client;
-      this.datamanager = options.datamanager;
-      this.datastore = options.datastore;
+      /**
+       * @type {Dropbox.DataStore.Client}
+       * @private
+       */
+      this.client_ = options.client;
+      /**
+       * @type {Dropbox.DataStore.DataManager}
+       * @private
+       */
+      this.datamanager_ = options.datamanager;
+      /**
+       * @type {Dropbox.DataStore.DataStore}
+       * @private
+       */
+      this.datastore_ = options.datastore;
     },
     /** @inheritDoc */
     sync: function(method) {
@@ -33,19 +45,38 @@ define([
       }
     },
     populateFromDropbox_: function() {
-      var data, bookmarks, url, results;
-      bookmarks = this.datastore.getTable('bookmarks');
+
+      var record, data;
+
+      record = this.getRecord_();
+      if (!record) {
+        return;
+      }
+      data = record.getFields();
+      data.tags = data.tags.toArray();
+      this.set(data);
+    },
+    /**
+     * @private
+     * @return {Dropbox.Datastore.Record}
+     */
+    getRecord_: function() {
+
+      var bookmarks, url, results;
+
+      bookmarks = this.datastore_.getTable('bookmarks');
+      if (this.id) {
+        return this.get(this.id) || null;
+      }
       url = this.get('url');
       if (!url) {
-        return;
+        return null;
       }
       results = bookmarks.query({url: url});
       if (_.isEmpty(results)) {
-        return;
+        return null;
       }
-      data = results[0].getFields();
-      data.tags = data.tags.toArray();
-      this.set(data);
+      return results[0];
     },
     /**
      * @private
@@ -53,8 +84,8 @@ define([
     saveToDropbox_: function() {
       var bookmarks, results, bm, rawData, data, tags, currentTags, removed,
         added, tagsTable, deleteKeys;
-      bookmarks = this.datastore.getTable('bookmarks');
-      tagsTable = this.datastore.getTable('tags');
+      bookmarks = this.datastore_.getTable('bookmarks');
+      tagsTable = this.datastore_.getTable('tags');
       results = bookmarks.query({url: this.get('url')});
       rawData = this.toJSON();
       data = _.clone(rawData);
