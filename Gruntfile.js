@@ -6,6 +6,7 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'extension/js/popup.js',
+        'extension/js/browser.js',
         'extension/js/dm/**/*.js'
       ],
       options: {
@@ -32,6 +33,7 @@ module.exports = function(grunt) {
         },
         files: {
           'extension/css/popup.css': 'extension/less/popup.less',
+          'extension/css/browser.css': 'extension/less/browser.less'
         }
       }
     },
