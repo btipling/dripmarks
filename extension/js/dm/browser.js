@@ -28,7 +28,6 @@ define([
         auth.auth();
         return;
       }
-      console.log('browser running');
       tags = new Tags([], {
         client: client,
         datamanager: datamanager,
