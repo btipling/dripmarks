@@ -3,8 +3,9 @@
  */
 define([
   'underscore',
-  'backbone'
-], function(_, Backbone) {
+  'backbone',
+  './loading'
+], function(_, Backbone, loading) {
 
   var Bookmark;
 
@@ -15,8 +16,7 @@ define([
   Bookmark = Backbone.Model.extend({
     /** @inheritDoc */
     defaults: {
-      contentAvailable: false,
-      loadingContent: true
+      contentAvailable: false
     },
     /** @inheritDoc */
     initialize: function(attributes, options) {
@@ -76,6 +76,7 @@ define([
         }, this);
         bm.set('updated', new Date());
       }
+      loading.showLoading(loading.namespaces.DATA_SYNC);
     },
     /**
      * @param {string} tagName

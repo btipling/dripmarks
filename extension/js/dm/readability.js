@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   './readability_api_keys',
-  './bookmark'
-], function($, _, keys, Bookmark) {
+  './bookmark',
+  './loading'
+], function($, _, keys, Bookmark, loading) {
 
   var API_URL;
 
@@ -23,6 +24,7 @@ define([
    * is given the bookmark as an argument.
    */
   function populateBookmark(url, opt_bookmark, opt_callback) {
+    loading.showLoading();
     $.ajax({
       url: API_URL,
       data: {url: url, token: keys.parserToken},
@@ -31,10 +33,8 @@ define([
         var bookmark;
 
         bookmark = opt_bookmark || new Bookmark();
-        bookmark.set(_.extend(data, {
-          contentAvailable: true,
-          loadingContent: false
-        }));
+        bookmark.set(_.extend(data, {contentAvailable: true}));
+        loading.hideLoading();
         if (opt_callback && _.isFunction(opt_callback)) {
           opt_callback(bookmark);
         }
@@ -44,7 +44,7 @@ define([
         var bookmark;
 
         bookmark = opt_bookmark || new Bookmark();
-        bookmark.set({loadingContent: false});
+        loading.hideLoading();
         if (opt_callback && _.isFunction(opt_callback)) {
           opt_callback(bookmark);
         }

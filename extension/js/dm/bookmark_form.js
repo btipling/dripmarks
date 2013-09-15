@@ -42,6 +42,7 @@ define([
       event.preventDefault();
       this.storeFormContents_();
       this.model.save();
+      this.trigger(BookmarkForm.Event.CLOSE);
     },
     /**
      * @private
@@ -73,7 +74,7 @@ define([
     handleCancel_: function(event) {
       event.preventDefault();
       this.dispose();
-      this.trigger(BookmarkForm.Event.CANCEL);
+      this.trigger(BookmarkForm.Event.CLOSE);
     },
     dispose: function() {
       this.$el.remove();
@@ -85,7 +86,7 @@ define([
    * @enum {string}
    */
   BookmarkForm.Event = {
-    CANCEL: 'cancel'
+    CLOSE: 'close'
   };
 
   return  BookmarkForm;

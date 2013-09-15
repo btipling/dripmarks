@@ -8,8 +8,16 @@ define([
   './bookmark_form',
   './bookmark',
   './readability',
-  './auth'
-], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth) {
+  './auth',
+  './loading'
+], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth, loading) {
+
+  var closeWindow;
+
+  /**
+   * @type {boolean}
+   */
+  closeWindow = false;
 
   /**
    * @param {Bookmark} bookmark
@@ -44,8 +52,12 @@ define([
       return;
     }
     datamanager = client.getDatastoreManager();
+    loading.showLoading();
     datamanager.openDefaultDatastore(function(error, datastore) {
+
       var bookmark, bookmarkForm;
+
+      loading.hideLoading();
       if (error) {
         auth.auth();
         window.close();
@@ -57,9 +69,25 @@ define([
       });
       datastore.syncStatusChanged.addListener(function() {
         // console.log('syncStatus', datastore.getSyncStatus(), arguments);
+        var status;
+        status = datastore.getSyncStatus();
+        if (!status.uploading) {
+          if (loading.isLoading(loading.namespaces.DATA_SYNC)) {
+            loading.hideLoading(loading.namespaces.DATA_SYNC);
+            if (closeWindow) {
+              window.close();
+            }
+          }
+        }
       });
       bookmarkForm = new BookmarkForm({model: bookmark});
-      bookmarkForm.on(BookmarkForm.Event.CANCEL, function() {
+      bookmarkForm.on(BookmarkForm.Event.CLOSE, function() {
+        var status;
+        status = datastore.getSyncStatus();
+        if (status.uploading) {
+          closeWindow = true;
+          return;
+        }
         window.close();
       });
       $('#content').append(bookmarkForm.render());
