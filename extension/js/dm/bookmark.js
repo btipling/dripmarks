@@ -49,7 +49,7 @@ define([
           this.saveToDropbox_();
           break;
         case 'delete':
-          console.log('deleting');
+          this.deleteFromDropbox_();
           break;
       }
     },
@@ -87,6 +87,21 @@ define([
         return null;
       }
       return results[0];
+    },
+    /**
+     * Requires an id.
+     * @private
+     */
+    deleteFromDropbox_: function() {
+      var bookmarks, bookmark;
+      if (!this.id) {
+        return;
+      }
+      bookmarks = this.datastore_.getTable('bookmarks');
+      bookmark = bookmarks.get(this.id);
+      if (bookmark) {
+        bookmark.deleteRecord();
+      }
     },
     /**
      * @private
