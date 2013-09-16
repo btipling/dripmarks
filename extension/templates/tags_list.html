@@ -5,8 +5,13 @@
   <span class="glyphicon glyphicon-sort-by-attributes"></span>
   <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 </h2>
+<div id="selected-tag-list">
+  {{#each selectedTags}}
+    {{> par_selected_tag }}
+  {{/each}}
+</div>
 <div id="tags-list">
-  {{#each this}}
+  {{#each tags}}
     {{> par_tag }}
   {{/each}}
 </div>

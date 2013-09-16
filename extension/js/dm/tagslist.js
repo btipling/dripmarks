@@ -18,6 +18,7 @@ define([
     /** @inheritDoc */
     events: {
       'click .tag': 'handleSelectTag_',
+      'click .selected-tag': 'deselectTag_',
       'click .glyphicon-sort-by-alphabet': 'handleSortByAlpha_',
       'click .glyphicon-sort-by-alphabet-alt': 'handleSortByAlphaAlt_',
       'click .glyphicon-sort-by-attributes': 'handleSortByAtr_',
@@ -25,7 +26,9 @@ define([
     },
     /** @inheritDoc */
     initialize: function() {
+      this.selectedTags_ = this.options.selectedTags;
       this.listenTo(this.model, 'all', this.render);
+      this.listenTo(this.selectedTags_, 'all', this.render);
       this.listenTo(this.model, 'sort', this.render);
       this.model.comparator = this.model.numTagsComparator;
       this.model.fetch();
@@ -35,20 +38,44 @@ define([
       var t, context;
       t = DM['extension/templates/tags_list.html'];
       context = this.model.toJSON();
-      this.$el.html(t(_.filter(context, function(tag) {
-        return !_.isEmpty(tag.bookmarks);
-      })));
+      this.$el.html(t({
+        tags: _.filter(context, function(tag) {
+          return !_.isEmpty(tag.bookmarks);
+        }),
+        selectedTags: this.selectedTags_.toJSON()
+      }));
       return this.$el;
+    },
+    /**
+     * @param {Object} event
+     * @private
+     * @return {Tag}
+     */
+    getTagFromEvent_: function(event) {
+      var id;
+      id = event.target.id;
+      return this.model.get(id);
     },
     /**
      * @param {Object} event
      * @private
      */
     handleSelectTag_: function(event) {
-      var id, bookmarks;
-      id = event.target.id;
-      bookmarks = this.model.get(id).get('bookmarks');
+      var tag, bookmarks;
+      tag = this.getTagFromEvent_(event);
+      bookmarks = tag.get('bookmarks');
       this.options.bookmarks.setIds(bookmarks);
+      this.selectedTags_.reset([tag]);
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    deselectTag_: function(event) {
+      var tag;
+      tag = this.getTagFromEvent_(event);
+      this.options.bookmarks.setIds([]);
+      this.selectedTags_.remove(tag);
     },
     /**
      * @private

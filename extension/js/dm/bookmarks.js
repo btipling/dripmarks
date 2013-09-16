@@ -42,7 +42,7 @@ define([
     sync: function(method) {
       if (method === 'read') {
         this.reset();
-        if (!this.ids_) {
+        if (!this.ids_ || _.isEmpty(this.ids_)) {
           this.populateFromQuery_();
           return;
         }
