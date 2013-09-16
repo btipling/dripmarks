@@ -80,7 +80,7 @@ define([
      */
     handleCancel_: function(event) {
       event.preventDefault();
-      //this.dispose();
+      this.dispose();
       _.defer(_.bind(function() {
         this.trigger(BookmarkForm.Event.CANCEL);
       }, this));

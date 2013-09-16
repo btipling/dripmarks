@@ -4,8 +4,9 @@ define([
   'backbone',
   'templates',
   'bootstrapModal',
-  './bookmark_dialog'
-], function($, _, Backbone, DM, Modal, BookmarkDialog) {
+  './bookmark_dialog',
+  './bookmark_form'
+], function($, _, Backbone, DM, Modal, BookmarkDialog, BookmarkForm) {
 
   var Bookmarkslist;
 
@@ -63,6 +64,12 @@ define([
       bookmarkDialog = new BookmarkDialog({model: bookmark});
       $(window.document.body).append(bookmarkDialog.render());
       $('#edit-bookmark').modal();
+      function destroyModal() {
+        $('#edit-bookmark').modal('hide');
+        $('#edit-bookmark').remove();
+      }
+      bookmarkDialog.on(BookmarkForm.Event.CANCEL, destroyModal);
+      bookmarkDialog.on(BookmarkForm.Event.CLOSE, destroyModal);
     },
   });
 
