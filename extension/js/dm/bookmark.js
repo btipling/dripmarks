@@ -66,7 +66,7 @@ define([
 
       bookmarks = this.datastore_.getTable('bookmarks');
       if (this.id) {
-        return this.get(this.id) || null;
+        return bookmarks.get(this.id) || null;
       }
       url = this.get('url');
       if (!url) {

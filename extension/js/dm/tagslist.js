@@ -17,6 +17,7 @@ define([
   TagsList = Backbone.View.extend({
     /** @inheritDoc */
     events: {
+      'click .tag': 'handleSelectTag_',
       'click .glyphicon-sort-by-alphabet': 'handleSortByAlpha_',
       'click .glyphicon-sort-by-alphabet-alt': 'handleSortByAlphaAlt_',
       'click .glyphicon-sort-by-attributes': 'handleSortByAtr_',
@@ -39,18 +40,40 @@ define([
       })));
       return this.$el;
     },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleSelectTag_: function(event) {
+      var id, bookmarks;
+      id = event.target.id;
+      bookmarks = this.model.get(id).get('bookmarks');
+      this.options.bookmarks.setIds(bookmarks);
+    },
+    /**
+     * @private
+     */
     handleSortByAlpha_: function() {
       this.model.comparator = this.model.alphaComparator;
       this.model.sort();
     },
+    /**
+     * @private
+     */
     handleSortByAlphaAlt_: function() {
       this.model.comparator = this.model.alphaComparatorAlt;
       this.model.sort();
     },
+    /**
+     * @private
+     */
     handleSortByAtr_: function() {
       this.model.comparator = this.model.numTagsComparator;
       this.model.sort();
     },
+    /**
+     * @private
+     */
     handleSortByAtrAlt_: function() {
       this.model.comparator = this.model.numTagsComparatorAlt;
       this.model.sort();

@@ -35,15 +35,16 @@ define([
         datamanager: datamanager,
         datastore: datastore
       });
-      tagslist = new TagsList({
-        model: tags
-      });
-      $('#tags-container').html(tagslist.render());
       bookmarks = new Bookmarks([], {
         client: client,
         datamanager: datamanager,
         datastore: datastore
       });
+      tagslist = new TagsList({
+        model: tags,
+        bookmarks: bookmarks
+      });
+      $('#tags-container').html(tagslist.render());
       bookmarksList = new Bookmarkslist({
         model: bookmarks
       });

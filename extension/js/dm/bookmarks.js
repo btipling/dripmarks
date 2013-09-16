@@ -41,6 +41,7 @@ define([
     /** @inheritDoc */
     sync: function(method) {
       if (method === 'read') {
+        this.reset();
         if (!this.ids_) {
           this.populateFromQuery_();
           return;
@@ -84,6 +85,13 @@ define([
         bm.fetch();
         this.add(bm);
       }, this);
+    },
+    /**
+     * @param {Array.<string>} ids
+     */
+    setIds: function(ids) {
+      this.ids_ = ids;
+      this.fetch();
     }
   });
 

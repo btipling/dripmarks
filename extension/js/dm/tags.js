@@ -47,6 +47,7 @@ define([
 
           tag = tagRecord.getFields();
           tag.bookmarks = tag.bookmarks.toArray();
+          tag.id = tagRecord.getId();
           this.add(tag);
         }, this);
       }
