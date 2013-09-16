@@ -5,7 +5,8 @@ requirejs.config({
     underscore: '/js/extern/underscore',
     handlebars: '/js/extern/handlebars',
     templates: '/js/templates/templates',
-    dropbox: 'https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b4'
+    dropbox: 'https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b4',
+    bootstrapModal: '/js/extern/bootstrap/modal'
   },
   shim: {
     backbone: {
@@ -21,6 +22,9 @@ requirejs.config({
     templates: {
       deps: ['handlebars'],
       exports: 'DM'
+    },
+    bootstrapModal: {
+      exports: 'Modal'
     }
   },
   baseUrl: '/js'

@@ -2,8 +2,10 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'templates'
-], function($, _, Backbone, DM) {
+  'templates',
+  'bootstrapModal',
+  './bookmark_dialog'
+], function($, _, Backbone, DM, Modal, BookmarkDialog) {
 
   var Bookmarkslist;
 
@@ -56,9 +58,11 @@ define([
      * @private
      */
     handleEdit_: function(event) {
-      var bookmark;
+      var bookmark, bookmarkDialog;
       bookmark = this.getBookmarkFromEvent_(event);
-      console.log('editing with bookmark', bookmark);
+      bookmarkDialog = new BookmarkDialog({model: bookmark});
+      $(window.document.body).append(bookmarkDialog.render());
+      $('#edit-bookmark').modal();
     },
   });
 
