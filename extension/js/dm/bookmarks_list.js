@@ -14,7 +14,8 @@ define([
   Bookmarkslist = Backbone.View.extend({
     /** @inheritDoc */
     events: {
-      'click .glyphicon-remove': 'handleRemove_'
+      'click .glyphicon-remove': 'handleRemove_',
+      'click .glyphicon-edit': 'handleEdit_'
     },
     /** @inheritDoc */
     initialize: function() {
@@ -49,7 +50,16 @@ define([
       var bookmark;
       bookmark = this.getBookmarkFromEvent_(event);
       bookmark.destroy();
-    }
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleEdit_: function(event) {
+      var bookmark;
+      bookmark = this.getBookmarkFromEvent_(event);
+      console.log('editing with bookmark', bookmark);
+    },
   });
 
   return Bookmarkslist;

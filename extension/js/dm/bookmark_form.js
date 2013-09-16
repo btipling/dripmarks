@@ -14,6 +14,7 @@ define([
    * @constructor
    */
   BookmarkForm = Backbone.View.extend({
+    template: DM['extension/templates/add_bookmark_form.html'],
     events: {
       'click .save-btn': 'handleSave_',
       'click .cancel-btn': 'handleCancel_'
@@ -31,14 +32,13 @@ define([
     },
     /** @inheritDoc */
     render: function() {
-      var t, context;
-      t = DM['extension/templates/add_bookmark_form.html'];
+      var context;
       context = _.clone(this.model.toJSON());
       context.formattedTags = '';
       if (context.tags && !_.isEmpty(context.tags)) {
         context.formattedTags = context.tags.join(', ');
       }
-      this.$el.html(t(context));
+      this.$el.html(this.template(context));
       return this.$el;
     },
     /**
