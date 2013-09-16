@@ -16,11 +16,20 @@
   h2 {
     font-size: 13px;
     span {
+      display: none;
+      opacity: 0.8;
       font-size: 9px;
       color: @gray;
       cursor: pointer;
       &:hover {
         color: inherit;
+      }
+    }
+  }
+  &:hover {
+    h2 {
+      span {
+        display: inline;
       }
     }
   }
@@ -43,7 +52,7 @@
   .bookmark {
     border: 0px solid @gray-dark;
     border-bottom-width: 1px;
-    padding: 7px 0 8px;
+    padding: 7px 0 5px;
     .bookmark-meta-data {
       margin-left: -72px;
     }
@@ -75,8 +84,28 @@
       margin-left: -62px;
       background-image: url(/images/img_bg.png);
     }
+    .bookmark-actions {
+      font-size: 9px;
+      display: none;
+      div {
+        opacity: 0.8;
+        display: block;
+        color: @gray;
+        cursor: pointer;
+        &:nth-child(1) {
+          margin: 0 0 10px;
+        }
+        &:hover {
+          opacity: 1;
+          color: inherit;
+        }
+      }
+    }
   }
   .bookmark:hover {
+    .bookmark-actions {
+      display: block;
+    }
     .bookmark-lead-img {
       visibility: visible;
     }
