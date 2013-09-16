@@ -19,9 +19,10 @@ define([
     },
     /** @inheritDoc */
     render: function() {
-      var t;
+      var t, context;
       t = DM['extension/templates/bookmarks_list.html'];
-      this.$el.html(t(this.model.toJSON()));
+      context = this.model.toJSON();
+      this.$el.html(t(context));
       return this.$el;
     }
   });

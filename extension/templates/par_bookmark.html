@@ -1,3 +1,25 @@
 <div class="bookmark">
-  {{url}}
+  <div class=" row">
+    <div class="col-mid-1">
+      <div class="bookmark-lead-img"
+        {{#if lead_image_url}}
+          style="background-image:{{lead_image_url}};"
+        {{/if}}></div>
+    </div>
+    <div class="col-mid-8">
+      <div class="row">
+        <div class="col-mid-8">
+          <span class="bookmark-title">{{title}}</span>
+        </div>
+        <div class="col-mid-8">
+          <a class="bookmark-url" href="{{url}}" target="_blank">{{url}}</a>
+        </div>
+        <div class="col-mid-8">
+          {{#each tags}}
+          <span class="bookmark-tag label label-default">{{this}}</span>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
