@@ -1,22 +1,26 @@
 <div class="bookmark">
-  <div class=" row">
-    <div class="col-mid-1">
+  <div class="row">
+    <div class="col-md-1">
       <div class="bookmark-lead-img"
         {{#if lead_image_url}}
-          style="background-image:{{lead_image_url}};"
+        style="display: inline-block; background-image:url({{lead_image_url}});"
         {{/if}}></div>
     </div>
-    <div class="col-mid-8">
+    <div class="col-md-11 bookmark-meta-data">
       <div class="row">
-        <div class="col-mid-8">
-          <span class="bookmark-title">{{title}}</span>
+        <div class="col-md-12">
+          <div class="bookmark-title">{{title}}</div>
         </div>
-        <div class="col-mid-8">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <a class="bookmark-url" href="{{url}}" target="_blank">{{url}}</a>
         </div>
-        <div class="col-mid-8">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           {{#each tags}}
-          <span class="bookmark-tag label label-default">{{this}}</span>
+          <div class="bookmark-tag label label-default">{{this}}</div>
           {{/each}}
         </div>
       </div>
