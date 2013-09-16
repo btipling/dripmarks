@@ -62,6 +62,7 @@ define([
         var bm;
         bm = result.getFields();
         bm.tags = bm.tags.toArray();
+        bm.id = result.getId();
         this.add(new Bookmark(bm, {
           client: this.client_,
           datamanager: this.datamanager_,

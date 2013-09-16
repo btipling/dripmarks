@@ -54,6 +54,7 @@ define([
       }
       data = record.getFields();
       data.tags = data.tags.toArray();
+      data.id = record.getId();
       this.set(data);
     },
     /**
