@@ -38,10 +38,19 @@ define([
     },
     /** @inheritDoc */
     sync: function(method) {
-      if (method === 'read') {
-        this.populateFromDropbox_();
-      } else if (method === 'create' || method === 'update') {
-        this.saveToDropbox_();
+      switch (method) {
+        case 'read':
+          this.populateFromDropbox_();
+          break;
+        case 'create':
+          this.saveToDropbox_();
+          break;
+        case 'update':
+          this.saveToDropbox_();
+          break;
+        case 'delete':
+          console.log('deleting');
+          break;
       }
     },
     populateFromDropbox_: function() {
