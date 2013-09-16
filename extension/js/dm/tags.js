@@ -50,6 +50,27 @@ define([
           this.add(tag);
         }, this);
       }
+    },
+    numTagsComparatorAlt: function(tag) {
+      return (tag.get('bookmarks') || []).length;
+    },
+    numTagsComparator: function(tag) {
+      return this.numTagsComparatorAlt(tag) * -1;
+    },
+    alphaComparator: function(tag) {
+      return tag.get('tag');
+    },
+    alphaComparatorAlt: function(tagA, tagB) {
+      var a, b;
+      a = tagA.get('tag');
+      b = tagB.get('tag');
+      if (a > b) {
+        return -1;
+      }
+      if (a < b) {
+        return 1;
+      }
+      return 0;
     }
   });
 
