@@ -59,6 +59,7 @@ define([
 
       record = this.getRecord_();
       if (!record) {
+        this.destroy();
         return;
       }
       data = record.getFields();
@@ -93,15 +94,31 @@ define([
      * @private
      */
     deleteFromDropbox_: function() {
-      var bookmarks, bookmark;
+      var bmid, bookmarksTable, bookmark, tagsTable, tags;
       if (!this.id) {
         return;
       }
-      bookmarks = this.datastore_.getTable('bookmarks');
-      bookmark = bookmarks.get(this.id);
+      bmid = this.id;
+      bookmarksTable = this.datastore_.getTable('bookmarks');
+      tagsTable = this.datastore_.getTable('tags');
+      bookmark = bookmarksTable.get(bmid);
       if (bookmark) {
         bookmark.deleteRecord();
       }
+      tags = tagsTable.query({});
+      _.each(tags, function(tag) {
+        var bookmarksList, bookmarks, index;
+        bookmarksList = tag.getFields().bookmarks;
+        if (!bookmarksList) {
+          return;
+        }
+        bookmarks = bookmarksList.toArray();
+        index = bookmarks.indexOf(bmid);
+        if (index === -1) {
+          return;
+        }
+        bookmarksList.splice(index, 1);
+      });
     },
     /**
      * @private

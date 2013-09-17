@@ -17,7 +17,7 @@ define([
   TagsList = Backbone.View.extend({
     /** @inheritDoc */
     events: {
-      'click .tag': 'handleSelectTag_',
+      'click .tagName': 'handleSelectTag_',
       'click .selected-tag': 'deselectTag_',
       'click .glyphicon-sort-by-alphabet': 'handleSortByAlpha_',
       'click .glyphicon-sort-by-alphabet-alt': 'handleSortByAlphaAlt_',

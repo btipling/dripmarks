@@ -27,8 +27,9 @@ requirejs.config({
 });
 
 requirejs([
+    'underscore',
     'dm/popup'
-], function(popup) {
+], function(_, popup) {
   _.defer(function() {
     popup.main();
   });

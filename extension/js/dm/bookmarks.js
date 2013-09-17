@@ -83,8 +83,11 @@ define([
           datamanager: this.datamanager_,
           datastore: this.datastore_
         });
+        // Dropbox is synchronous:
+        if (bm.id) {
+          this.add(bm);
+        }
         bm.fetch();
-        this.add(bm);
       }, this);
     },
     /**

@@ -35,10 +35,26 @@
   }
   .tag {
     cursor: pointer;
-    margin: 0 0 3px;
+    margin: 0 0 3px -17px;
+    span.glyphicon {
+      display: inline-block;
+      visibility: hidden;
+      color: @gray;
+      opacity: 0.9;
+      margin-right: 5px;
+      &:hover {
+        opacity: 1;
+        color: @link-color;
+      }
+    }
     &:hover {
-      text-decoration: underline;
+      .tagName {
+        text-decoration: underline;
+      }
       color: @link-color;
+      span.glyphicon {
+        visibility: visible;
+      }
     }
   }
   #selected-tag-list {

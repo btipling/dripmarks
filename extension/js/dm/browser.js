@@ -32,6 +32,10 @@ define([
 
       var tagslist, tags, bookmarksList, bookmarks, selectedTags;
 
+      if (window.location.search.indexOf('__clear__') !== -1) {
+        utils.clearAllRecords(datastore.getTable('bookmarks'));
+        utils.clearAllRecords(datastore.getTable('tags'));
+      }
       loading.hideLoading();
       utils.manageSyncLoading(datastore);
       if (error) {
