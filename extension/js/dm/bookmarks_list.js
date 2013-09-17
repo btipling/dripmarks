@@ -63,10 +63,11 @@ define([
       bookmark = this.getBookmarkFromEvent_(event);
       bookmarkDialog = new BookmarkDialog({model: bookmark});
       $(window.document.body).append(bookmarkDialog.render());
-      $('#edit-bookmark').modal();
+      $('#edit-bookmark').modal({
+        backdrop: false
+      });
       function destroyModal() {
         $('#edit-bookmark').modal('hide');
-        $('#edit-bookmark').remove();
       }
       bookmarkDialog.on(BookmarkForm.Event.CANCEL, destroyModal);
       bookmarkDialog.on(BookmarkForm.Event.CLOSE, destroyModal);

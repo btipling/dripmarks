@@ -9,7 +9,7 @@ define([
   './bookmark',
   './readability',
   './auth',
-  './loading',
+  './loading'
 ], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth, loading) {
 
   var closeWindow;
@@ -68,7 +68,6 @@ define([
         datastore: datastore
       });
       datastore.syncStatusChanged.addListener(function() {
-        // console.log('syncStatus', datastore.getSyncStatus(), arguments);
         var status;
         status = datastore.getSyncStatus();
         if (!status.uploading) {

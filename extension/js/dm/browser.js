@@ -6,9 +6,10 @@ define([
   './tagslist',
   './bookmarks',
   './bookmarks_list',
-  './loading'
+  './loading',
+  './utils'
 ], function($, Dropbox, auth, Tags, TagsList, Bookmarks, Bookmarkslist,
-    loading) {
+    loading, utils) {
 
   function main() {
 
@@ -32,6 +33,7 @@ define([
       var tagslist, tags, bookmarksList, bookmarks, selectedTags;
 
       loading.hideLoading();
+      utils.manageSyncLoading(datastore);
       if (error) {
         auth.auth();
         return;
