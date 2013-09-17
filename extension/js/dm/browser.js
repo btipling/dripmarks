@@ -69,6 +69,10 @@ define([
         model: bookmarks
       });
       $('#bookmarks-container').html(bookmarksList.render());
+      datastore.recordsChanged.addListener(_.partial(_.debounce(function() {
+        tags.fetch();
+        bookmarks.fetch();
+      }, 1000)));
     });
 
   }

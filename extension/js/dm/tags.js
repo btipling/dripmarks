@@ -41,6 +41,7 @@ define([
       if (method === 'read') {
         tagsTable = this.datastore_.getTable('tags');
         tagRecords = tagsTable.query({});
+        this.reset();
         _.each(tagRecords, function(tagRecord) {
 
           var tag;
