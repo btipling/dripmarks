@@ -1,5 +1,6 @@
 define([
   'jquery',
+  'underscore',
   'dropbox',
   './auth',
   './tags',
@@ -8,7 +9,7 @@ define([
   './bookmarks_list',
   './loading',
   './utils'
-], function($, Dropbox, auth, Tags, TagsList, Bookmarks, Bookmarkslist,
+], function($, _, Dropbox, auth, Tags, TagsList, Bookmarks, Bookmarkslist,
     loading, utils) {
 
   function main() {
