@@ -5,8 +5,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'templates',
-  'bootstrapAlert',
+  'templates'
 ], function($, _, Backbone, DM) {
 
   var TagsList;
