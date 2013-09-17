@@ -1,28 +1,25 @@
 <div class="bookmark" id="{{id}}">
-  <div class="pull-right bookmark-actions">
-    <div class="glyphicon glyphicon-remove"></div>
-    <div class="glyphicon glyphicon-edit"></div>
-  </div>
   <div class="row">
-    <div class="col-md-1">
-      <div class="bookmark-lead-img"
-        {{#if lead_image_url}}
-        style="display: inline-block; background-image:url({{lead_image_url}});"
-        {{/if}}></div>
-    </div>
-    <div class="col-md-11 bookmark-meta-data">
+    <div class="col-md-1 col-sm-1 col-xs-1 bookmark-lead-img"
+      style="{{#unless lead_image_url}}visibility:hidden;{{/unless}}{{#if lead_image_url}}background-image:url({{lead_image_url}});{{/if}}"
+      ></div>
+    <div class="col-md-10 col-sm-10 col-xs-10 bookmark-meta-data">
+      <div class="bookmark-actions">
+        <div class="glyphicon glyphicon-remove"></div>
+        <div class="glyphicon glyphicon-edit"></div>
+      </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="bookmark-title">{{title}}</div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
           <a class="bookmark-url" href="{{url}}" target="_blank">{{url}}</a>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
           {{#each tags}}
           <div class="bookmark-tag label label-default">{{this}}</div>
           {{/each}}
