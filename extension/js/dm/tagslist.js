@@ -5,7 +5,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'templates'
+  'templates',
+  'bootstrapAlert',
 ], function($, _, Backbone, DM) {
 
   var TagsList;
@@ -19,6 +20,7 @@ define([
     events: {
       'click .tagName': 'handleSelectTag_',
       'click .selected-tag': 'deselectTag_',
+      'click .glyphicon-remove': 'handleRemoveTag_',
       'click .glyphicon-sort-by-alphabet': 'handleSortByAlpha_',
       'click .glyphicon-sort-by-alphabet-alt': 'handleSortByAlphaAlt_',
       'click .glyphicon-sort-by-attributes': 'handleSortByAtr_',
@@ -104,6 +106,17 @@ define([
     handleSortByAtrAlt_: function() {
       this.model.comparator = this.model.numTagsComparatorAlt;
       this.model.sort();
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleRemoveTag_: function(event) {
+      var target, id, tag;
+      target = event.target;
+      id = $(target).attr('data-for-id');
+      tag = this.model.get(id);
+      tag.destroy();
     }
   });
 

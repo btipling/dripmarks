@@ -6,6 +6,7 @@ requirejs.config({
     handlebars: '/js/extern/handlebars',
     templates: '/js/templates/templates',
     dropbox: 'https://www.dropbox.com/static/api/1/dropbox-datastores-0.1.0-b4',
+    bootstrapAlert: '/js/extern/bootstrap/alert',
     bootstrapModal: '/js/extern/bootstrap/modal'
   },
   shim: {
@@ -22,6 +23,9 @@ requirejs.config({
     templates: {
       deps: ['handlebars'],
       exports: 'DM'
+    },
+    bootstrapAlert: {
+      exports: 'Alert'
     },
     bootstrapModal: {
       exports: 'Modal'
