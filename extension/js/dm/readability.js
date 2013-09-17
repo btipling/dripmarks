@@ -33,6 +33,11 @@ define([
         var bookmark;
 
         bookmark = opt_bookmark || new Bookmark();
+        if (bookmark.id) {
+          // Don't want to replace previously user modified saved data.
+          delete data.title;
+          delete data.url;
+        }
         bookmark.set(_.extend(data, {contentAvailable: true}));
         loading.hideLoading();
         if (opt_callback && _.isFunction(opt_callback)) {

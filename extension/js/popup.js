@@ -29,6 +29,8 @@ requirejs.config({
 requirejs([
     'dm/popup'
 ], function(popup) {
-  popup.main();
+  _.defer(function() {
+    popup.main();
+  });
 });
 
