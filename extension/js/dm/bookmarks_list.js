@@ -5,8 +5,9 @@ define([
   'templates',
   'bootstrapModal',
   './bookmark_dialog',
-  './bookmark_form'
-], function($, _, Backbone, DM, Modal, BookmarkDialog, BookmarkForm) {
+  './bookmark_form',
+  './read'
+], function($, _, Backbone, DM, Modal, BookmarkDialog, BookmarkForm, Read) {
 
   var Bookmarkslist;
 
@@ -17,6 +18,7 @@ define([
   Bookmarkslist = Backbone.View.extend({
     /** @inheritDoc */
     events: {
+      'click .bookmark-title':  'handleSelectBookmark_',
       'click .glyphicon-remove': 'handleRemove_',
       'click .glyphicon-edit': 'handleEdit_'
     },
@@ -44,6 +46,20 @@ define([
       bookmark = $(target).closest('.bookmark').get(0);
       id = bookmark.id;
       return this.model.get(id);
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleSelectBookmark_: function(event) {
+      var bmid, bookmark, read;
+      bmid = $(event.target).attr('data-for-id');
+      bookmark = this.model.get(bmid);
+      read = new Read({
+        model: bookmark
+      });
+      read.render();
+      $(document.body).append(read.$el);
     },
     /**
      * @param {Object} event
