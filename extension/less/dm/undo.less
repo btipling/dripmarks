@@ -1,0 +1,23 @@
+.undo {
+  position: absolute;
+  top: 5px;
+  left: 0px;
+  right: 0px;
+  z-index: @z-plane-5;
+  text-align: center;
+  .label {
+    margin: 5px auto;
+    padding: 5px;
+    a {
+      display: inline-block;
+      margin: 0 10px 0;
+    }
+    .glyphicon {
+      color: @gray;
+      cursor: pointer;
+      &:hover {
+        color: @link-color;
+      }
+    }
+  }
+}

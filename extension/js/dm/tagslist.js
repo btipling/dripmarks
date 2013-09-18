@@ -6,8 +6,9 @@ define([
   'underscore',
   'backbone',
   'templates',
-  './tags'
-], function($, _, Backbone, DM, Tags) {
+  './tags',
+  './undo'
+], function($, _, Backbone, DM, Tags, Undo) {
 
   var TagsList;
 
@@ -34,6 +35,11 @@ define([
       this.listenTo(this.model, 'sort', this.render);
       this.model.comparator = this.model.numTagsComparator;
       this.model.fetch();
+      /**
+       * @type {Undo}
+       * @private
+       */
+      this.undoView_ = null;
     },
     /** @inheritDoc */
     render: function() {
@@ -117,7 +123,24 @@ define([
       target = event.target;
       id = $(target).attr('data-for-id');
       tag = this.model.get(id);
+      this.setupUndoForTag_(tag);
       tag.destroy();
+    },
+    /**
+     * @param {Tag} tag
+     */
+    setupUndoForTag_: function(tag) {
+      if (_.isNull(this.undoView_)) {
+        this.undoView_ = new Undo({
+          datastore: this.model.getDatastore()
+        });
+        this.undoView_.on(Undo.Events.CLOSE, _.bind(function() {
+          this.undoView_ = null;
+        }, this));
+        this.undoView_.render();
+        $(document.body).append(this.undoView_.$el);
+      }
+      this.undoView_.addTagUndo(tag.get('tag'), tag.get('bookmarks'));
     }
   });
 
