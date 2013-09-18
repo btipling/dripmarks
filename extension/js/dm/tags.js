@@ -32,6 +32,15 @@ define([
        * @private
        */
       this.datastore_ = options.datastore;
+      if (_.isUndefined(options.selectedTags)) {
+        return;
+      }
+      /**
+       * A set of selected tags used to facet.
+       * @type {Tags=}
+       */
+      this.selectedTags_ = options.selectedTags;
+      this.listenTo(this.selectedTags_, 'all', this.handleSelectedTagUpdate_);
     },
     /** @inheritDoc */
     sync: function(method) {
@@ -75,8 +84,36 @@ define([
         return 1;
       }
       return 0;
+    },
+    /**
+     * @return {Array.<Object>}
+     */
+    getSelectedTags: function() {
+      return this.selectedTags_.toJSON();
+    },
+    /**
+     * @param {Tag} tag
+     */
+    addSelectedTag: function(tag) {
+      this.selectedTags_.reset([tag]);
+    },
+    /**
+     * @param {Tag} tag
+     */
+    removeSelectedTag: function(tag) {
+      this.selectedTags_.remove(tag);
+    },
+    handleSelectedTagUpdate_: function() {
+      this.trigger(Tags.Events.SELECTED_TAG);
     }
   });
+
+  /**
+   * @enum {string}
+   */
+  Tags.Events = {
+    SELECTED_TAG: 'selected-tag'
+  };
 
   return Tags;
 });
