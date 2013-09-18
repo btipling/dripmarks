@@ -1,0 +1,82 @@
+.read {
+  position: absolute;
+  top: 30px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: @body-bg;
+  z-index: @z-plane-2;
+  .bookmark {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 225px;
+    border: 1px solid darken(@gray-darker, 5%);
+    background-color: @gray;
+    padding: 10px;
+    overflow: hidden;
+    .bookmark-title {
+      color: @gray-lighter;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .bookmark-url {
+      display: block;
+      width: 200px;
+      overflow: hidden;
+      color: @gray-lighter;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0 0 10px;
+    }
+    .bookmark-actions {
+      position: absolute;
+      top: 0px;
+      right: -20px;
+      .glyphicon-edit {
+        display: none;
+      }
+      .glyphicon-remove {
+        cursor: pointer;
+        color: darken(@gray-darker, 5%);
+        &:hover {
+          color: @link-color;
+        }
+      }
+    }
+    .bookmark-lead-img {
+      display: none;
+    }
+  }
+  .read-container {
+    max-width: 700px;
+    margin: 5px auto;
+    article {
+      font-size: 14px;
+      line-height: 165%;
+      p {
+        margin: 25px;
+      }
+    }
+    header {
+      display: block;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px auto;
+    }
+    h2 {
+      font-size: 16px;
+    }
+    h3 {
+      font-size: 14px;
+    }
+    img {
+      display: block;
+      max-width: 675px;
+      border: solid 2px darken(@gray-darker, 5%);
+      margin: 25px auto;
+    }
+  }
+}

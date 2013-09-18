@@ -4,7 +4,7 @@
 define([
   'backbone',
   'templates'
-], function($, _, Backbone, DM) {
+], function(Backbone, DM) {
 
   var Read;
 
@@ -13,7 +13,7 @@ define([
     className: 'read',
     /** @inheritDoc */
     events: {
-      'click .close-read': this.close_
+      'click .glyphicon-remove': 'close_'
     },
     /** @inheritDoc */
     render: function() {
@@ -30,7 +30,7 @@ define([
     },
     dispose: function() {
       this.stopListening();
-      this.remove();
+      this.$el.remove();
     }
   });
 
