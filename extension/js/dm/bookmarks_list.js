@@ -68,6 +68,7 @@ define([
       });
       function destroyModal() {
         $('#edit-bookmark').modal('hide');
+        $('.bookmark-dialog-container').remove();
       }
       bookmarkDialog.on(BookmarkForm.Event.CANCEL, destroyModal);
       bookmarkDialog.on(BookmarkForm.Event.CLOSE, destroyModal);

@@ -13,6 +13,7 @@ define([
    * @extends {BookmarkForm}
    */
   BookmarkDialog = BookmarkForm.extend({
+    className: 'bookmark-dialog-container',
     template: DM['extension/templates/edit_bookmark_dialog.html']
   });
 
