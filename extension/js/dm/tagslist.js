@@ -131,7 +131,9 @@ define([
      */
     setupUndoForTag_: function(tag) {
       if (_.isNull(this.undoView_)) {
-        this.undoView_ = new Undo();
+        this.undoView_ = new Undo({
+          datastore: this.model.getDatastore()
+        });
         this.undoView_.on(Undo.Events.CLOSE, _.bind(function() {
           this.undoView_ = null;
         }, this));

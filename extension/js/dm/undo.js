@@ -2,9 +2,10 @@
  * @fileOverview A view for showing an undo UI.
  */
 define([
+  'underscore',
   'backbone',
   'templates'
-], function(Backbone, DM) {
+], function(_, Backbone, DM) {
 
   var Undo;
 
@@ -23,6 +24,11 @@ define([
        * @type {Array.{Object}
        */
       this.tagUndos_ = [];
+      /**
+       * @type {Dropbox.Datastore.Datastore}
+       * @private
+       */
+      this.datastore_ = this.options.datastore;
     },
     /** @inheritDoc */
     render: function() {
@@ -46,7 +52,20 @@ define([
      * @private
      */
     handleUndo_: function(event) {
+      var tagsTable, bookmarksTable;
       event.preventDefault();
+      tagsTable = this.datastore_.getTable('tags');
+      bookmarksTable = this.datastore_.getTable('bookmarks');
+      _.each(this.tagUndos_, function(tag) {
+        tagsTable.insert(tag);
+        _.each(tag.bookmarks, function(bmid) {
+          var bookmark, tagList;
+          bookmark = bookmarksTable.get(bmid);
+          tagList = bookmark.getFields().tags;
+          tagList.insert(tag.tag);
+        });
+      }, this);
+      this.dispose();
     },
     /**
      * @private

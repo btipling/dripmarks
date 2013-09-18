@@ -154,6 +154,12 @@ define([
       tag = this.selectedTags_.get(tagId);
       this.selectedTags_.remove(tag);
       this.fetch();
+    },
+    /**
+     * @return {Dropbox.Datastore.Datastore}
+     */
+    getDatastore: function() {
+      return this.datastore_;
     }
   });
 
