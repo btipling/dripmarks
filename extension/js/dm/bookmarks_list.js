@@ -18,7 +18,7 @@ define([
   Bookmarkslist = Backbone.View.extend({
     /** @inheritDoc */
     events: {
-      'click .bookmark-title':  'handleSelectBookmark_',
+      'click .bookmark-title-link':  'handleSelectBookmark_',
       'click .glyphicon-remove': 'handleRemove_',
       'click .glyphicon-edit': 'handleEdit_'
     },
