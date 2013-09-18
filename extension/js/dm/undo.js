@@ -62,7 +62,7 @@ define([
           var bookmark, tagList;
           bookmark = bookmarksTable.get(bmid);
           tagList = bookmark.getFields().tags;
-          tagList.insert(tag.tag);
+          tagList.push(tag.tag);
         });
       }, this);
       this.dispose();

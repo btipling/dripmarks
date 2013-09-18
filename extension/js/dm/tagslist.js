@@ -140,7 +140,7 @@ define([
         this.undoView_.render();
         $(document.body).append(this.undoView_.$el);
       }
-      this.undoView_.addTagUndo(tag.get('name'), tag.get('bookmarks'));
+      this.undoView_.addTagUndo(tag.get('tag'), tag.get('bookmarks'));
     }
   });
 
