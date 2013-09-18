@@ -29,7 +29,8 @@ define([
     /** @inheritDoc */
     initialize: function() {
       this.listenTo(this.model, 'all', this.render);
-      this.listenTo(this.model, Tags.Events.SELECTED_TAG, this.render);
+      this.listenTo(this.model, Tags.Events.SELECTED_TAG,
+        this.handleSelectUpdated_);
       this.listenTo(this.model, 'sort', this.render);
       this.model.comparator = this.model.numTagsComparator;
       this.model.fetch();
@@ -62,21 +63,22 @@ define([
      * @private
      */
     handleSelectTag_: function(event) {
-      var tag, bookmarks;
+      var tag;
       tag = this.getTagFromEvent_(event);
-      bookmarks = tag.get('bookmarks');
-      this.options.bookmarks.setIds(bookmarks);
       this.model.addSelectedTag(tag);
+    },
+    /**
+     * @private
+     */
+    handleSelectUpdated_: function() {
+      this.options.bookmarks.setIds(this.model.getBookmarkIds());
     },
     /**
      * @param {Object} event
      * @private
      */
     deselectTag_: function(event) {
-      var tag;
-      tag = this.getTagFromEvent_(event);
-      this.options.bookmarks.setIds([]);
-      this.model.removeSelectedTag(tag);
+      this.model.removeSelectedTagById(event.target.id);
     },
     /**
      * @private
