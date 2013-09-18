@@ -5,8 +5,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'templates'
-], function($, _, Backbone, DM) {
+  'templates',
+  './tags'
+], function($, _, Backbone, DM, Tags) {
 
   var TagsList;
 
@@ -27,9 +28,9 @@ define([
     },
     /** @inheritDoc */
     initialize: function() {
-      this.selectedTags_ = this.options.selectedTags;
       this.listenTo(this.model, 'all', this.render);
-      this.listenTo(this.selectedTags_, 'all', this.render);
+      this.listenTo(this.model, Tags.Events.SELECTED_TAG,
+        this.handleSelectUpdated_);
       this.listenTo(this.model, 'sort', this.render);
       this.model.comparator = this.model.numTagsComparator;
       this.model.fetch();
@@ -43,7 +44,7 @@ define([
         tags: _.filter(context, function(tag) {
           return !_.isEmpty(tag.bookmarks);
         }),
-        selectedTags: this.selectedTags_.toJSON()
+        selectedTags: this.model.getSelectedTags()
       }));
       return this.$el;
     },
@@ -62,21 +63,22 @@ define([
      * @private
      */
     handleSelectTag_: function(event) {
-      var tag, bookmarks;
+      var tag;
       tag = this.getTagFromEvent_(event);
-      bookmarks = tag.get('bookmarks');
-      this.options.bookmarks.setIds(bookmarks);
-      this.selectedTags_.reset([tag]);
+      this.model.addSelectedTag(tag);
+    },
+    /**
+     * @private
+     */
+    handleSelectUpdated_: function() {
+      this.options.bookmarks.setIds(this.model.getBookmarkIds());
     },
     /**
      * @param {Object} event
      * @private
      */
     deselectTag_: function(event) {
-      var tag;
-      tag = this.getTagFromEvent_(event);
-      this.options.bookmarks.setIds([]);
-      this.selectedTags_.remove(tag);
+      this.model.removeSelectedTagById(event.target.id);
     },
     /**
      * @private

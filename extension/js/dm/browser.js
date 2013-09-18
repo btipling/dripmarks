@@ -45,15 +45,16 @@ define([
         auth.auth();
         return;
       }
-      tags = new Tags([], {
-        client: client,
-        datamanager: datamanager,
-        datastore: datastore
-      });
       selectedTags = new Tags([], {
         client: client,
         datamanager: datamanager,
         datastore: datastore
+      });
+      tags = new Tags([], {
+        client: client,
+        datamanager: datamanager,
+        datastore: datastore,
+        selectedTags: selectedTags
       });
       bookmarks = new Bookmarks([], {
         client: client,
@@ -62,8 +63,7 @@ define([
       });
       tagslist = new TagsList({
         model: tags,
-        bookmarks: bookmarks,
-        selectedTags: selectedTags
+        bookmarks: bookmarks
       });
       $('#tags-container').html(tagslist.render());
       bookmarksList = new Bookmarkslist({

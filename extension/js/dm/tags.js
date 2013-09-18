@@ -32,6 +32,15 @@ define([
        * @private
        */
       this.datastore_ = options.datastore;
+      if (_.isUndefined(options.selectedTags)) {
+        return;
+      }
+      /**
+       * A set of selected tags used to facet.
+       * @type {Tags=}
+       */
+      this.selectedTags_ = options.selectedTags;
+      this.listenTo(this.selectedTags_, 'all', this.fetch);
     },
     /** @inheritDoc */
     sync: function(method) {
@@ -40,7 +49,8 @@ define([
 
       if (method === 'read') {
         tagsTable = this.datastore_.getTable('tags');
-        tagRecords = tagsTable.query({});
+        tagRecords = this.facetTags_(tagsTable.query({}),
+          this.selectedTags_.toJSON());
         this.reset();
         _.each(tagRecords, function(tagRecord) {
 
@@ -54,6 +64,54 @@ define([
           }));
         }, this);
       }
+      this.trigger(Tags.Events.SELECTED_TAG);
+    },
+    /**
+     * @param {Array.<Dropbox.Datastore.Record>} tagRecords
+     * @param {Array.<Object} selectedTags
+     * @private
+     * @return {Array.<Dropbox.Datastore.Record>}
+     */
+    facetTags_: function(tagRecords, selectedTags) {
+      var currentTag;
+      if (_.isEmpty(tagRecords) || _.isEmpty(selectedTags)) {
+        return tagRecords;
+      }
+      currentTag = selectedTags.shift();
+      return this.facetTags_(this.facetSingleTag_(tagRecords, currentTag),
+        selectedTags);
+    },
+    /**
+     * Filters out tags that don't share bookmarks with selected tag.
+     * @param {Array.<Dropbox.Datastore.Record> tagRecords
+     * @param {Object} selectedTag
+     * @private
+     * @return {Array.<Dropbox.Datastore.Record>
+     */
+    facetSingleTag_: function(tagRecords, selectedTag) {
+      var selectedTagBookmarks;
+      selectedTagBookmarks = selectedTag.bookmarks;
+      return _.filter(tagRecords, function(tagRecord) {
+        var bookmarks, tag;
+        tag = tagRecord.getFields();
+        if (tag.tag === selectedTag.tag) {
+          return false;
+        }
+        bookmarks = tag.bookmarks.toArray();
+        return !!_.intersection(selectedTagBookmarks, bookmarks).length;
+      }) || [];
+    },
+    /**
+     * Returns the bookmark ids available for all selected tags.
+     * @return {Array.<string>}
+     */
+    getBookmarkIds: function() {
+      return _.reduce(this.selectedTags_.toJSON(), function(memo, tag) {
+        if (_.isNull(memo)) {
+          return tag.bookmarks;
+        }
+        return _.intersection(tag.bookmarks, memo);
+      }, null);
     },
     numTagsComparatorAlt: function(tag) {
       return (tag.get('bookmarks') || []).length;
@@ -75,8 +133,36 @@ define([
         return 1;
       }
       return 0;
+    },
+    /**
+     * @return {Array.<Object>}
+     */
+    getSelectedTags: function() {
+      return this.selectedTags_.toJSON();
+    },
+    /**
+     * @param {Tag} tag
+     */
+    addSelectedTag: function(tag) {
+      this.selectedTags_.push(tag);
+    },
+    /**
+     * @param {string} tagId
+     */
+    removeSelectedTagById: function(tagId) {
+      var tag;
+      tag = this.selectedTags_.get(tagId);
+      this.selectedTags_.remove(tag);
+      this.fetch();
     }
   });
+
+  /**
+   * @enum {string}
+   */
+  Tags.Events = {
+    SELECTED_TAG: 'selected-tag'
+  };
 
   return Tags;
 });
