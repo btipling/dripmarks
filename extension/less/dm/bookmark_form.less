@@ -77,10 +77,37 @@
           color: @gray-darker;
         }
       }
-      input#bookmark-form-tag-input {
-        width: 75px;
-        border-width: 0px;
-        outline: none;
+      #bookmark-form-tag-input-container {
+        position: relative;
+        input#bookmark-form-tag-input {
+          width: 75px;
+          border-width: 0px;
+          outline: none;
+        }
+        span#bookmark-form-tag-auto-complete {
+          position: absolute;
+          top: 15px;
+          left: -5px;
+          right: -5px;
+          background-color: @gray-lighter;
+          border: 1px solid darken(@gray-darker, 5%);
+          max-height: 100px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          z-index: @z-plane-1;
+          .tag-selector {
+            background-color: @gray-lighter;
+            color: @gray-dark;
+            .available-tag {
+              padding: 2px;
+              min-height: 18px;
+              &.available-tag-selected {
+                background-color: @gray-darker;
+                color: @link-color;
+              }
+            }
+          }
+        }
       }
     }
   }

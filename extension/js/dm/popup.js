@@ -9,8 +9,10 @@ define([
   './bookmark',
   './readability',
   './auth',
-  './loading'
-], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth, loading) {
+  './loading',
+  './tags'
+], function($, _, Dropbox, BookmarkForm, Bookmark, Readability, auth, loading,
+    Tags) {
 
   var closeWindow;
 
@@ -55,7 +57,7 @@ define([
     loading.showLoading();
     datamanager.openDefaultDatastore(function(error, datastore) {
 
-      var bookmark, bookmarkForm;
+      var bookmark, bookmarkForm, tags;
 
       loading.hideLoading();
       if (error) {
@@ -64,9 +66,15 @@ define([
       }
       bookmark = new Bookmark({}, {
         client: client,
-        datamanager: datastore,
+        datamanager: datamanager,
         datastore: datastore
       });
+      tags = new Tags([], {
+        client: client,
+        datamanager: datamanager,
+        datastore: datastore
+      });
+      tags.fetch();
       datastore.syncStatusChanged.addListener(function() {
         var status;
         status = datastore.getSyncStatus();
@@ -80,7 +88,7 @@ define([
           }
         }
       });
-      bookmarkForm = new BookmarkForm({model: bookmark});
+      bookmarkForm = new BookmarkForm({model: bookmark, tags: tags});
       bookmarkForm.on(BookmarkForm.Event.CLOSE, function() {
         var status;
         status = datastore.getSyncStatus();

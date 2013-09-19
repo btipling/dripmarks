@@ -67,7 +67,8 @@ define([
       });
       $('#tags-container').html(tagslist.render());
       bookmarksList = new Bookmarkslist({
-        model: bookmarks
+        model: bookmarks,
+        tags: tags
       });
       $('#bookmarks-container').html(bookmarksList.render());
       datastore.recordsChanged.addListener(_.partial(_.debounce(function() {

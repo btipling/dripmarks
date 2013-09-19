@@ -45,12 +45,17 @@ define([
     /** @inheritDoc */
     sync: function(method) {
 
-      var tagsTable, tagRecords;
+      var tagsTable, tagRecords, selectedTags;
 
       if (method === 'read') {
         tagsTable = this.datastore_.getTable('tags');
+        if (_.isUndefined(this.selectedTags_)) {
+          selectedTags = [];
+        } else {
+          selectedTags = this.selectedTags_.toJSON();
+        }
         tagRecords = this.facetTags_(tagsTable.query({}),
-          this.selectedTags_.toJSON());
+          selectedTags);
         this.reset();
         _.each(tagRecords, function(tagRecord) {
 

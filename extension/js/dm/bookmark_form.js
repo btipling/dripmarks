@@ -5,8 +5,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'templates'
-], function($, _, Backbone, DM) {
+  'templates',
+  './tag_selector'
+], function($, _, Backbone, DM, TagSelector) {
 
   var BookmarkForm;
 
@@ -17,6 +18,8 @@ define([
     template: DM['extension/templates/add_bookmark_form.html'],
     events: {
       'keyup #bookmark-form-tag-input': 'handleTagKey_',
+      'keydown #bookmark-form-tag-input': 'handleTagKeyDown_',
+      'focus #bookmark-form-tag-input': 'handleTagFocus_',
       'blur #bookmark-form-tag-input': 'handleTagBlur_',
       'click .bookmark-form-fake-input': 'handleFakeInputClick_',
       'click .save-btn': 'handleSave_',
@@ -26,6 +29,16 @@ define([
     initialize: function() {
       this.listenTo(this.model, 'change:url', this.updateModel_);
       this.listenTo(this.model, 'all', this.render);
+      /**
+       * @type {Tags}
+       * @private
+       */
+      this.tags_ = this.options.tags;
+      /**
+       * @type {TagSelector}
+       * @private
+       */
+      this.tagSelector_ = null;
     },
     /**
      * @private
@@ -57,12 +70,73 @@ define([
      * @param {Object} event
      * @private
      */
-    handleTagKey_: function(event) {
-      if (event.keyCode === 188) {
-        this.handleTagComma_(event);
-      } else if (event.keyCode === 8) {
+    handleTagKeyDown_: function(event) {
+      if (event.keyCode === 8) {
         this.handleTagBackspace_(event);
       }
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleTagKey_: function(event) {
+      var tag;
+      if (event.keyCode === 188) {
+        this.handleTagComma_(event);
+      } else if (event.keyCode === 38) {
+        this.handleTagUp_(event);
+        return;
+      } else if (event.keyCode === 40) {
+        this.handleTagDown_(event);
+        return;
+      }
+      if (!_.isNull(this.tagSelector_)) {
+        tag = this.getTagInput_(false, false);
+        this.populateAvailableTags_(tag, 0, this.tagSelector_.model);
+      }
+    },
+    /**
+     * @param {Object} tag
+     * @param {number} index
+     * @private
+     */
+    updateSelected_: function(tag, index) {
+      tag.set('isSelected', false);
+      tag = this.tagSelector_.model.at(index);
+      tag.set('isSelected', true);
+      $('#bookmark-form-tag-input').val(tag.get('tag'));
+    },
+    /**
+     * @private
+     */
+    handleTagUp_: function() {
+      var index, m;
+      if (_.isNull(this.tagSelector_)) {
+        return;
+      }
+      m = this.tagSelector_.model.findWhere({isSelected: true});
+      index = this.tagSelector_.model.indexOf(m);
+      index--;
+      if (index === -1) {
+        index = this.tagSelector_.model.length - 1;
+      }
+      this.updateSelected_(m, index);
+    },
+    /**
+     * @private
+     */
+    handleTagDown_: function() {
+      var index, m;
+      if (_.isNull(this.tagSelector_)) {
+        return;
+      }
+      m = this.tagSelector_.model.findWhere({isSelected: true});
+      index = this.tagSelector_.model.indexOf(m);
+      index++;
+      if (index === this.tagSelector_.model.length) {
+        index = 0;
+      }
+      this.updateSelected_(m, index);
     },
     /**
      * @param {Object} event
@@ -80,20 +154,23 @@ define([
       }
     },
     /**
-     * @param {boolean} trim_trailing To trim comma if needed.
+     * @param {boolean} trimTrailing To trim comma if needed.
+     * @param {boolean} deleteContent Delete content once fetched.
      * @param {Element=} opt_element If given, don't look it up.
      * @return {string}
      */
-    getTagInput_: function(trim_trailing, opt_element) {
+    getTagInput_: function(trimTrailing, deleteContent, opt_element) {
       var element, value, tag;
       element = opt_element ? $(opt_element) : $('#bookmark-form-tag-input');
       value = element.val();
-      if (trim_trailing) {
+      if (trimTrailing) {
         tag = $.trim(value.substr(0, value.length - 1));
       } else {
         tag = $.trim(value);
       }
-      element.val('');
+      if (deleteContent) {
+        element.val('');
+      }
       return tag;
     },
     /**
@@ -102,7 +179,7 @@ define([
      */
     handleTagComma_: function(event) {
       var tag;
-      tag = this.getTagInput_(true, event.target);
+      tag = this.getTagInput_(true, true, event.target);
       this.appendTagToForm_(tag);
     },
     /**
@@ -111,8 +188,59 @@ define([
      */
     handleTagBlur_: function(event) {
       var tag;
-      tag = this.getTagInput_(false, event.target);
+      tag = this.getTagInput_(false, true, event.target);
       this.appendTagToForm_(tag);
+      if (!_.isNull(this.tagSelector_)) {
+        this.tagSelector_.dispose();
+      }
+      $('#bookmark-form-tag-auto-complete').hide();
+    },
+    /**
+     * @param {string} value
+     * @param {number} selectedIndex
+     * @param {Backbone.Collection} collection
+     * @private
+     */
+    populateAvailableTags_: function(value, selectedIndex, collection) {
+      var tags, offset;
+      collection.reset();
+      offset = 0;
+      if (!_.isEmpty(value)) {
+        offset++;
+        collection.push({
+          tag: value,
+          isSelected: selectedIndex === 0
+        });
+      }
+      value = $.trim(value);
+      tags = this.tags_.toJSON();
+      if (!_.isEmpty(value)) {
+        tags = _.filter(tags, function(tag) {
+          return tag.tag.indexOf(value) === 0 && tag.tag !== value;
+        });
+      }
+      tags = tags.slice(0, 5);
+      _.each(tags, function(tag, index) {
+        collection.push({
+          tag: tag.tag,
+          isSelected: selectedIndex === index + offset
+        });
+      });
+    },
+    /**
+     * @private
+     */
+    handleTagFocus_: function() {
+      var tagSelector, collection, element;
+      collection = new Backbone.Collection();
+      this.populateAvailableTags_('', 0, collection);
+      tagSelector = new TagSelector({
+        model: collection
+      });
+      element = $('#bookmark-form-tag-auto-complete');
+      element.html(tagSelector.render());
+      element.show();
+      this.tagSelector_ = tagSelector;
     },
     /**
      * @param {string} tag
@@ -169,7 +297,7 @@ define([
       title = $.trim($('#bookmark-form-title').val());
       notes = $.trim($('#bookmark-form-notes').val());
       tags = this.getTagsFromForm_();
-      tag = this.getTagInput_(false);
+      tag = this.getTagInput_(false, true);
       if (!_.isEmpty(tag)) {
         tags.push(tag);
       }
