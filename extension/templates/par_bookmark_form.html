@@ -39,8 +39,13 @@
   </div>
   <div class="row bookmark-form-row">
     <div class="col-xs-12">
-      <input id="bookmark-form-tag-input" type="text"
-      value="{{formattedTags}}"/>
+      <div class="bookmark-form-fake-input">
+        <span id="bookmark-form-tag-list">{{#each tags}}{{> par_selected_tag}}
+          {{/each}}</span><span
+            id="bookmark-form-tag-input-container"
+            ><input id="bookmark-form-tag-input" type="text"/><span
+              id="bookmark-form-tag-auto-complete" style="display:none;"></span>
+      </div>
     </div>
   </div>
   <div class="row bookmark-form-row">

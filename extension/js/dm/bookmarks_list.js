@@ -26,6 +26,11 @@ define([
     initialize: function() {
       this.listenTo(this.model, 'all', this.render);
       this.model.fetch();
+      /**
+       * @type {Tags}
+       * @private
+       */
+      this.tags_ = this.options.tags;
     },
     /** @inheritDoc */
     render: function() {
@@ -77,7 +82,7 @@ define([
     handleEdit_: function(event) {
       var bookmark, bookmarkDialog;
       bookmark = this.getBookmarkFromEvent_(event);
-      bookmarkDialog = new BookmarkDialog({model: bookmark});
+      bookmarkDialog = new BookmarkDialog({model: bookmark, tags: this.tags_});
       $(window.document.body).append(bookmarkDialog.render());
       $('#edit-bookmark').modal({
         backdrop: false
