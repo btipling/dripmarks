@@ -58,6 +58,9 @@ define([
         };
       });
       this.$el.html(this.template(context));
+      _.defer(function() {
+        $('#bookmark-form-tag-input').focus();
+      });
       return this.$el;
     },
     /**
