@@ -6,7 +6,8 @@
   input, textarea {
     background-color: @gray-dark;
     color: @gray-lighter;
-    border: 1px @gray solid !important;
+    border: 1px @gray solid;
+    padding: 0 2px;
   }
   .bookmark-form-img-container {
     width: 90px;
@@ -21,22 +22,6 @@
   input[type=text] {
     width: 208px;
     display: inline-block;
-  }
-  .bookmark-form-fake-input {
-    border: 1px solid @gray;
-    background-color: @gray-dark;
-    #bookmark-form-tag-list {
-      .label {
-        margin: 5px;
-        background-color: @gray-lighter;
-        color: @gray-darker;
-      }
-    }
-    input#bookmark-form-tag-input {
-      width: 75px;
-      border-width: 0px;
-      outline: none;
-    }
   }
   .subrow {
     label {
@@ -78,6 +63,24 @@
             margin-left: 10px;
           }
         }
+      }
+    }
+    .bookmark-form-fake-input {
+      border: 1px solid @gray;
+      background-color: @gray-dark;
+      padding: 2px 2px 4px;
+      #bookmark-form-tag-list {
+        .label {
+          display: inline-block;
+          margin: 2px 2px 0 0;
+          background-color: @gray-lighter;
+          color: @gray-darker;
+        }
+      }
+      input#bookmark-form-tag-input {
+        width: 75px;
+        border-width: 0px;
+        outline: none;
       }
     }
   }

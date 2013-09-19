@@ -84,7 +84,7 @@ define([
      * @private
      */
     deselectTag_: function(event) {
-      this.model.removeSelectedTagById(event.target.id);
+      this.model.removeSelectedTagById($(event.target).attr('data-for-id'));
     },
     /**
      * @private
