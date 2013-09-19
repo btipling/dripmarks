@@ -16,6 +16,7 @@ define([
   BookmarkForm = Backbone.View.extend({
     template: DM['extension/templates/add_bookmark_form.html'],
     events: {
+      'keyup #bookmark-form-tag-input': 'handleTagKey_',
       'click .save-btn': 'handleSave_',
       'click .cancel-btn': 'handleCancel_'
     },
@@ -35,11 +36,39 @@ define([
       var context;
       context = _.clone(this.model.toJSON());
       context.formattedTags = '';
-      if (context.tags && !_.isEmpty(context.tags)) {
-        context.formattedTags = context.tags.join(', ');
-      }
+      context.tags = _.map(context.tags, function(tag) {
+        return {
+          id: tag,
+          tag: tag
+        };
+      });
       this.$el.html(this.template(context));
       return this.$el;
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleTagKey_: function(event) {
+      if (event.keyCode === 188) {
+        this.handleTagComma_(event);
+      }
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleTagComma_: function(event) {
+      var element, value, tag, t;
+      element = $(event.target);
+      value = element.val();
+      tag = $.trim(value.substr(0, value.length - 1));
+      t = DM['extension/templates/selected_tag.html'];
+      $('#bookmark-form-tag-list').append($(t({
+        id: tag,
+        tag: tag
+      })));
+      element.val('');
     },
     /**
      * @param {Object} event
