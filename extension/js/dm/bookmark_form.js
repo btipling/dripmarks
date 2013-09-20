@@ -22,6 +22,7 @@ define([
       'focus #bookmark-form-tag-input': 'handleTagFocus_',
       'blur #bookmark-form-tag-input': 'handleTagBlur_',
       'click .bookmark-form-fake-input': 'handleFakeInputClick_',
+      'click .tag': 'handleTagRemove_',
       'click .save-btn': 'handleSave_',
       'click .cancel-btn': 'handleCancel_'
     },
@@ -165,6 +166,13 @@ define([
       if (lastTag) {
         lastTag.remove();
       }
+    },
+    /**
+     * @param {Object} event
+     * @private
+     */
+    handleTagRemove_: function(event) {
+      $(event.target).remove();
     },
     /**
      * @param {boolean} trimTrailing To trim comma if needed.
