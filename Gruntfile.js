@@ -55,6 +55,23 @@ module.exports = function(grunt) {
           'extension/js/templates/templates.js': 'extension/templates/*.html'
         }
       }
+    },
+    compress: {
+      main: {
+        options: {
+          archive: './build.zip'
+        },
+        files: [
+          {cwd: 'extension/js', expand: true, src: ['**'], dest: 'js/'},
+          {cwd: 'extension/css/', expand: true, src: ['**'], dest: 'css/'},
+          {cwd: 'extension/html/', expand: true, src: ['**'], dest: 'html/'},
+          {cwd: 'extension/images/', expand: true, src: ['**'],
+            dest: 'images/'},
+          {cwd: 'extension/fonts/', expand: true, src: ['**'], dest: 'fonts/'},
+          {cwd: 'extension/', expand: true, src: ['./manifest.json'],
+            dest: '.'}
+        ]
+      }
     }
   });
 
@@ -62,7 +79,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-handlebars');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['jshint', 'handlebars', 'less']);
+  grunt.registerTask('build', ['default', 'compress']);
 
 };

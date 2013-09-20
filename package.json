@@ -22,7 +22,9 @@
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-less": "~0.7.0",
-    "grunt-contrib-handlebars": "~0.5.10"
+    "grunt-contrib-handlebars": "~0.5.10",
+    "grunt-shell": "0.4.0",
+    "grunt-contrib-compress": "0.5.2"
   },
   "license": "Apache 2.0",
   "engines": {
