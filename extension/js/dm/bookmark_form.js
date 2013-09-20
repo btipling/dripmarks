@@ -104,7 +104,9 @@ define([
      * @private
      */
     updateSelected_: function(tag, index) {
-      tag.set('isSelected', false);
+      if (tag) {
+        tag.set('isSelected', false);
+      }
       tag = this.tagSelector_.model.at(index);
       tag.set('isSelected', true);
       $('#bookmark-form-tag-input').val(tag.get('tag'));
@@ -118,8 +120,12 @@ define([
         return;
       }
       m = this.tagSelector_.model.findWhere({isSelected: true});
-      index = this.tagSelector_.model.indexOf(m);
-      index--;
+      if (m) {
+        index = this.tagSelector_.model.indexOf(m);
+        index--;
+      } else {
+        index = -1;
+      }
       if (index === -1) {
         index = this.tagSelector_.model.length - 1;
       }
@@ -134,8 +140,12 @@ define([
         return;
       }
       m = this.tagSelector_.model.findWhere({isSelected: true});
-      index = this.tagSelector_.model.indexOf(m);
-      index++;
+      if (m) {
+        index = this.tagSelector_.model.indexOf(m);
+        index++;
+      } else {
+        index = 0;
+      }
       if (index === this.tagSelector_.model.length) {
         index = 0;
       }
@@ -207,9 +217,8 @@ define([
     populateAvailableTags_: function(value, selectedIndex, collection) {
       var tags, offset;
       collection.reset();
-      offset = 0;
+      offset = 1;
       if (!_.isEmpty(value)) {
-        offset++;
         collection.push({
           tag: value,
           isSelected: selectedIndex === 0

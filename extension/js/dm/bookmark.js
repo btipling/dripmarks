@@ -181,6 +181,9 @@ define([
 
       var results, tag, bookmarksList, bookmarks;
 
+      if (_.isEmpty(tagName)) {
+        return;
+      }
       results = tagsTable.query({tag: tagName});
       if (_.isEmpty(results)) {
         tag = tagsTable.insert({
