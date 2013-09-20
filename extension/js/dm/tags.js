@@ -45,7 +45,7 @@ define([
     /** @inheritDoc */
     sync: function(method) {
 
-      var tagsTable, tagRecords, selectedTags;
+      var tagsTable, tagRecords, selectedTags, tagsToAdd;
 
       if (method === 'read') {
         tagsTable = this.datastore_.getTable('tags');
@@ -56,19 +56,19 @@ define([
         }
         tagRecords = this.facetTags_(tagsTable.query({}),
           selectedTags);
-        this.reset();
-        _.each(tagRecords, function(tagRecord) {
+        tagsToAdd = _.map(tagRecords, function(tagRecord) {
 
           var tag;
 
           tag = tagRecord.getFields();
           tag.bookmarks = tag.bookmarks.toArray();
           tag.id = tagRecord.getId();
-          this.add(new Tag(tag, {
+          return new Tag(tag, {
             datastore: this.datastore_
-          }));
+          });
         }, this);
       }
+      this.reset(tagsToAdd);
       this.trigger(Tags.Events.SELECTED_TAG);
     },
     /**

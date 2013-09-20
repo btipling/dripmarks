@@ -74,6 +74,8 @@ define([
      * @private
      */
     populateFromIds_: function() {
+      var bookmarks;
+      bookmarks = [];
       _.each(this.ids_, function(id) {
 
         var bm;
@@ -85,10 +87,13 @@ define([
         });
         // Dropbox is synchronous:
         if (bm.id) {
-          this.add(bm);
+          bookmarks.push(bm);
         }
-        bm.fetch();
+        _.defer(function() {
+          bm.fetch();
+        });
       }, this);
+      this.reset(bookmarks);
     },
     /**
      * @param {Array.<string>} ids
