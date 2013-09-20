@@ -2,5 +2,7 @@
 <div class="bookmarks">
   {{#each this}}
     {{> par_bookmark}}
+  {{else}}
+  <div class="no-bookmarks">You have no bookmarks yet.</div>
   {{/each}}
 </div>

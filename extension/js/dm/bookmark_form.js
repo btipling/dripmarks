@@ -165,11 +165,11 @@ define([
     getTagInput_: function(trimTrailing, deleteContent, opt_element) {
       var element, value, tag;
       element = opt_element ? $(opt_element) : $('#bookmark-form-tag-input');
-      value = element.val();
+      value = $.trim(element.val());
       if (trimTrailing) {
-        tag = $.trim(value.substr(0, value.length - 1));
+        tag = value.substr(0, value.length - 1);
       } else {
-        tag = $.trim(value);
+        tag = value;
       }
       if (deleteContent) {
         element.val('');
