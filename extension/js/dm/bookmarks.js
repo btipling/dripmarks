@@ -41,7 +41,6 @@ define([
     /** @inheritDoc */
     sync: function(method) {
       if (method === 'read') {
-        this.reset();
         if (!this.ids_ || _.isEmpty(this.ids_)) {
           this.populateFromQuery_();
           return;
@@ -54,21 +53,22 @@ define([
      */
     populateFromQuery_: function() {
 
-      var bookmarks, results;
+      var bookmarks, results, bookmarksToAdd;
 
       bookmarks = this.datastore_.getTable('bookmarks');
       results = bookmarks.query({});
-      _.each(results, function(result) {
+      bookmarksToAdd = _.map(results, function(result) {
         var bm;
         bm = result.getFields();
         bm.tags = bm.tags.toArray();
         bm.id = result.getId();
-        this.add(new Bookmark(bm, {
+        return new Bookmark(bm, {
           client: this.client_,
           datamanager: this.datamanager_,
           datastore: this.datastore_
-        }));
+        });
       }, this);
+      this.reset(bookmarksToAdd);
     },
     /**
      * @private
