@@ -69,7 +69,9 @@ module.exports = function(grunt) {
             dest: 'images/'},
           {cwd: 'extension/fonts/', expand: true, src: ['**'], dest: 'fonts/'},
           {cwd: 'extension/', expand: true, src: ['./manifest.json'],
-            dest: '.'}
+            dest: '.'},
+          {cwd: 'extension/', expand: true,
+            src: ['./chrome_oauth_receiver.html'], dest: '.'}
         ]
       }
     }

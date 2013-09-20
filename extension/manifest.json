@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Dripmarks",
   "description": "Dropbox bookmark synching powerd by the Dropbox API and Readability",
-  "version": "1.0",
+  "version": "1.1",
   "permissions": [
     "tabs",
     "storage",
