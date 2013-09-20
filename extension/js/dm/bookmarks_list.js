@@ -36,7 +36,7 @@ define([
     render: function() {
       var t, context;
       t = DM['extension/templates/bookmarks_list.html'];
-      context = this.model.toJSON();
+      context = this.model.toJSON().reverse();
       this.$el.html(t(context));
       return this.$el;
     },
