@@ -82,9 +82,20 @@ main {
       margin-bottom: 10px;
       .tag {
         margin: 0 5px 10px 0px;
-        cursor: pointer;
+        cursor: pointer ;
         &:hover {
           background-color: @gray-lighter;
+        }
+      }
+    }
+    #empty-tags-list {
+      .tag {
+        cursor: text !important;
+        color: @gray !important;
+        .tagName:hover {
+          cursor: text !important;
+          color: @gray !important;
+          text-decoration: none !important;
         }
       }
     }

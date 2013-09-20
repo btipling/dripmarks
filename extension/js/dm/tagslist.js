@@ -19,7 +19,7 @@ define([
   TagsList = Backbone.View.extend({
     /** @inheritDoc */
     events: {
-      'click .tagName': 'handleSelectTag_',
+      'click #tag-list .tagName': 'handleSelectTag_',
       'click .selected-tag': 'deselectTag_',
       'click .glyphicon-remove': 'handleRemoveTag_',
       'click .glyphicon-sort-by-alphabet': 'handleSortByAlpha_',
@@ -50,7 +50,10 @@ define([
         tags: _.filter(context, function(tag) {
           return !_.isEmpty(tag.bookmarks);
         }),
-        selectedTags: this.model.getSelectedTags()
+        selectedTags: this.model.getSelectedTags(),
+        emptyTags: _.filter(context, function(tag) {
+          return _.isEmpty(tag.bookmarks);
+        })
       }));
       return this.$el;
     },
