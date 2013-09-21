@@ -89,10 +89,13 @@ define([
         if (bm.id) {
           bookmarks.push(bm);
         }
+      }, this);
+      bookmarks.reverse();
+      _.each(bookmarks, function(bm) {
         _.defer(function() {
           bm.fetch();
         });
-      }, this);
+      });
       this.reset(bookmarks);
     },
     /**
