@@ -56,7 +56,8 @@ define([
       var bookmarks, results, bookmarksToAdd;
 
       bookmarks = this.datastore_.getTable('bookmarks');
-      results = bookmarks.query({});
+      results = _.clone(bookmarks.query({}));
+      results.reverse();
       bookmarksToAdd = _.map(results, function(result) {
         var bm;
         bm = result.getFields();
@@ -74,9 +75,11 @@ define([
      * @private
      */
     populateFromIds_: function() {
-      var bookmarks;
+      var bookmarks, ids;
       bookmarks = [];
-      _.each(this.ids_, function(id) {
+      ids = _.clone(this.ids_);
+      ids.reverse();
+      _.each(ids, function(id) {
 
         var bm;
 
@@ -90,7 +93,6 @@ define([
           bookmarks.push(bm);
         }
       }, this);
-      bookmarks.reverse();
       _.each(bookmarks, function(bm) {
         _.defer(function() {
           bm.fetch();
