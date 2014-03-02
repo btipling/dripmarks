@@ -154,8 +154,8 @@ define([
       } else {
         bm = results[0];
         _.each(data, function (value, key) {
-          bm.set(key, value);
-        });
+          this.setBigBookmarkValue(key, value, bm);
+        }, this);
         tags = bm.getOrCreateList('tags');
         currentTags = tags.toArray();
         removed = _.difference(currentTags, rawData.tags);
@@ -169,6 +169,27 @@ define([
         bm.set('updated', new Date());
       }
       loading.showLoading(loading.namespaces.DATA_SYNC);
+    },
+    /**
+     * Set the value for a bookmark even if it's too big.
+     * @param {string} key
+     * @param {string} value
+     * @param {Object} bm
+     * @private
+     */
+    setBigBookmarkValue: function (key, value, bm) {
+      var newValueLength, valueLength, msg;
+      try {
+        bm.set(key, value);
+      } catch (e) {
+        if (e.toString().indexOf("too large") === -1) {
+          return;
+        }
+        valueLength = value.length;
+        newValueLength = ((valueLength/3) * 2);
+        msg = "... (content reduced because too large to save to Dropbox)";
+        this.setBigBookmarkValue(key, value.substr(0, newValueLength) + msg, bm);
+      }
     },
     /**
      * @param {string} tagName
